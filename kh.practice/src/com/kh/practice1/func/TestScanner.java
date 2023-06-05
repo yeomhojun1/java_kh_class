@@ -14,7 +14,7 @@ public class TestScanner {
 		String str1 =scan.next();//next는 한덩어리만 줄래라는 뜻인데 한 덩어리는 띄어쓰기 전까지. 그러므로 1이 나옴
 		System.out.println(str1);//11
 		int num1 =scan.nextInt();//nextInt는 띄어쓰기 전까지 한덩어리를 정수로 바꾸서 리턴, 형변환을 못하면 죽음
-		//22
+		//22dd
 		System.out.println(num1);//11
 		double num2 = scan.nextDouble();//nextDouble은 띄어쓰기 전까지 한 덩어리를 실수로 바꿔서 리턴
 		//33.3

@@ -11,7 +11,7 @@ public class main {
 		} catch (UserException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-	}
+		}new TestFIleIo().testFileRead2();
+	}   
 
 }

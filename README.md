@@ -1,1 +1,1 @@
-# java_kh_exam
+# java_kh_class

@@ -152,10 +152,11 @@ public class MusicView {
 		System.out.print("삭제할 곡명을 입력해주세요.");
 		String title = sc.nextLine();
 		Music result = mc.removeMusic(title);
-		if(result.equals(title)) {
-			System.out.println("검색한 곡이 없습니다");
+		if(result ==null) {
+			System.out.println("삭제할 곡이 없습니다.");
 		}else {
-			System.out.printf("검색한 곡은000(%s,%s)입니다. \n",result.getTitle(), result.getSinger()	);
+			System.out.printf("한 곡은000(%s,%s)입니다. \n",result.getTitle(), result.getSinger()	);
+			System.out.printf("삭제됐음"	);
 		}
 		
 	}

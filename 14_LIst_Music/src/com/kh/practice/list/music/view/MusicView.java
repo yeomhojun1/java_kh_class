@@ -37,7 +37,7 @@ public class MusicView {
 			System.out.println("7. 곡명 오름차순으로 정렬");
 			System.out.println("8. 가수명 내림차순 정렬");
 			System.out.println("9. 종료");
-			System.out.println("메뉴 번호 선택 : >>");
+			System.out.print("메뉴 번호 선택 : >>");
 			String menuStr = sc.nextLine();
 
 			menu = 0;
@@ -88,7 +88,6 @@ public class MusicView {
 				continue;//다시 메뉴 입력이 보이도록함
 			}
 			//반복문 마지막에 더이상 어떤 코드도 없음
-			System.out.println("정상적 메인메뉴 실행된 경우에만 보였으면 함");
 		}while (menu !=9);
 		//생략가능 코드
 		
@@ -96,9 +95,9 @@ public class MusicView {
 
 	public void addList() {
 		System.out.println("****마지막 위치에 곡 추가");
-		System.out.println("곡명 : ");
+		System.out.print("곡명 : ");
 		String title= sc.nextLine();
-		System.out.println("가수 명 : ");
+		System.out.print("가수 명 : ");
 		String singer= sc.nextLine();
 		Music vo = new Music(title, singer);
 		int result = mc.addList(vo);
@@ -111,9 +110,9 @@ public class MusicView {
 
 	public void addAtZero() {
 		System.out.println("****첫번째 위치에 곡 추가");
-		System.out.println("곡명 : ");
+		System.out.print("곡명 : ");
 		String title= sc.nextLine();
-		System.out.println("가수 명 : ");
+		System.out.print("가수 명 : ");
 		String singer= sc.nextLine();
 		Music vo = new Music(title, singer);
 		int result = mc.addAtZero(vo);
@@ -137,7 +136,7 @@ public class MusicView {
 
 	public void searchMusic() {
 		System.out.println("*********특정 곡 검색******");
-		System.out.println("검색할 곡명을 입력해주세요.");
+		System.out.print("검색할 곡명을 입력해주세요.");
 		String title = sc.nextLine();
 		Music result = mc.searchMusic(title);
 		if(result == null) {
@@ -149,7 +148,16 @@ public class MusicView {
 	}
 
 	public void removeMusic() {
-		// todo
+		System.out.println("*********특정 곡 삭제******");
+		System.out.print("삭제할 곡명을 입력해주세요.");
+		String title = sc.nextLine();
+		Music result = mc.removeMusic(title);
+		if(result.equals(title)) {
+			System.out.println("검색한 곡이 없습니다");
+		}else {
+			System.out.printf("검색한 곡은000(%s,%s)입니다. \n",result.getTitle(), result.getSinger()	);
+		}
+		
 	}
 
 	public void setMusic() {

@@ -67,10 +67,19 @@ public class MusicController {
 		return result;
 	}
 
-	public Music setMusic(String title, Music music) {
-		Music result = null;
-		return result;
-	}
+	public Music setMusic(String title, Music result) {
+		
+		for (Music vo : list) {
+			if (vo.getTitle().equals(title)) {
+				list.remove(vo);
+				((ArrayList<Music>)list).add(result);
+				list.add(result);
+				
+				}
+			}
+			return result;
+		}
+
 
 	public int ascTitle() {
 		int result = 0;

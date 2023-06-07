@@ -162,7 +162,16 @@ public class MusicView {
 	}
 
 	public void setMusic() {
-		// todo
+		System.out.println("********특정곡 수정*****");
+		System.out.println("검색할 곡 명");
+		String title= sc.nextLine();
+		Music result = mc.searchMusic(title);
+		System.out.println("수정할 곡 명");
+		String title2= sc.nextLine();
+		System.out.println("수정할 가수 명");
+		String singer = sc.nextLine();
+		
+		System.out.printf("%s-%s가 값이 변경되었습니다. \n", result.getTitle(), result.getSinger());
 	}
 
 	public void ascTitle() {

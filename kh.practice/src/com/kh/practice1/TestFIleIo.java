@@ -1,4 +1,4 @@
-package kh.lclass.io;
+package com.kh.practice1;
 
 import java.io.BufferedReader;
 import java.io.File;

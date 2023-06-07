@@ -1,4 +1,4 @@
-package kh.lclass.io;
+package com.kh.practice1;
 
 public class main {
 

@@ -24,7 +24,7 @@ public class MusicView {
 //		9. 종료 // “종료” 출력 후 main()으로 리턴
 //		메뉴 번호 선택 : >> 입력 받음
 //		메뉴 화면 반복 실행 처리
-		int menu=0;
+		int menu=-1;
 		do {
 			System.out.println("*****메인 메뉴*****");
 			System.out.println("1. 마지막 위치에 곡 추가");
@@ -34,13 +34,13 @@ public class MusicView {
 			System.out.println("5. 특정 곡 삭제");
 			System.out.println("6. 특정 곡 정보 수정");
 			System.out.println("7. 곡명 오름차순으로 정렬");
-			System.out.println("7. 곡명 오름차순으로 정렬");
 			System.out.println("8. 가수명 내림차순 정렬");
 			System.out.println("9. 종료");
+			System.out.println("0. 파일에 저장");
 			System.out.print("메뉴 번호 선택 : >>");
 			String menuStr = sc.nextLine();
 
-			menu = 0;
+			menu = -1;
 			// 비정상인 경우
 			try {
 				menu = Integer.parseInt(menuStr);
@@ -55,6 +55,9 @@ public class MusicView {
 			
 			switch (menu) {
 			//정상입력
+			case 0:
+				saveFile();
+				break;
 			case 1:
 				addList();
 				break;
@@ -155,30 +158,61 @@ public class MusicView {
 		if(result ==null) {
 			System.out.println("삭제할 곡이 없습니다.");
 		}else {
-			System.out.printf("한 곡은000(%s,%s)입니다. \n",result.getTitle(), result.getSinger()	);
-			System.out.printf("삭제됐음"	);
+			System.out.printf("삭제한 곡은000(%s,%s)입니다. \n",result.getTitle(), result.getSinger()	);
 		}
 		
 	}
 
 	public void setMusic() {
-		System.out.println("********특정곡 수정*****");
+		System.out.println("******특정 곡 수정*********");
 		System.out.println("검색할 곡 명");
-		String title= sc.nextLine();
-		Music result = mc.searchMusic(title);
-		System.out.println("수정할 곡 명");
-		String title2= sc.nextLine();
-		System.out.println("수정할 가수 명");
-		String singer = sc.nextLine();
+		String title1 = sc.nextLine();
+		Music result = mc.searchMusic(title1);
+		if(result == null) {
+			System.out.println("수정할 곡이 없습니다");
+		}else {
+			System.out.println("수정할 곡 명");
+			String title2 = sc.nextLine();
+			System.out.println("수정할 가수명");
+			String singer= sc.nextLine();
+			Music a = new Music(title2,singer);
+			Music b = mc.setMusic(title1, a);
+			System.out.printf("%s-%s가 값이 변경되었습니다입니다. \n", result.getSinger(), result.getTitle());
+		}
 		
-		System.out.printf("%s-%s가 값이 변경되었습니다. \n", result.getTitle(), result.getSinger());
+
 	}
 
 	public void ascTitle() {
-		// todo
+		System.out.println("*****곡명 오름차순 정렬****");
+		int result = mc.ascTitle2();
+		if(result>0) {
+			System.out.println("정렬 성공");
+		}else {
+			System.out.println("정렬 실패");
+		}
 	}
 
 	public void desSinger() {
-		// todo
+		System.out.println("******가수명 내림차순 정렬****");
+		int result = mc.descSinger();
+		if(result>0) {
+			System.out.println("정렬 성공");
+		}else {
+			System.out.println("정렬 실패");
+		}
+	}
+	public void saveFile() {
+		System.out.println("********파일에 저장********");
+		System.out.println("저장할 파일경로를 작성해주세요");
+		String fileName= sc.nextLine();
+		int result =mc.saveFile(fileName);
+		if(result>0) {
+			System.out.println("저장성공");
+		}else {
+			System.out.println("저장실패");
+		}
+		
+		
 	}
 }

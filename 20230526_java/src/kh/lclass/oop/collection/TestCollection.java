@@ -31,7 +31,7 @@ public class TestCollection {
 		strStack.add("하");
 		strStack.push("세요");
 		System.out.println(strStack);
-		System.out.println(strStack.get(1));
+		System.out.println(strStack.get(0));
 		System.out.println(strStack.pop());
 		
 		
@@ -88,6 +88,7 @@ public class TestCollection {
 		list2.add(26);
 		list2.add(27);
 		list2.add(2, 55);//끼워넣기 insert index 현재 크기size() 보다 클수없음
+		System.out.println(list2);
 		System.out.println(list2.get(3));//get은 자리를 꺼내옴
 		System.out.println(list2.get(2));//get은 자리를 꺼내옴
 		for(int i= 0;i<list2.size();i++ ) {
@@ -125,24 +126,29 @@ public class TestCollection {
 //				
 //		
 //		
-		list1.add("2번");
-		if(list1.add("7번")) {
+		list1.add("1번");
+		if(list1.add("2번")) {
 			System.out.println("끼워넣기성공");
 		}
-		list1.add("1번");
-		list1.add("2번");
 		list1.add("3번");
-		list1.add(1,"2번대신 끼워넣기");
+		list1.add("4번");
+		list1.add("5번");
+		list1.add(1,"10번대신 끼워넣기");
+		System.out.println(list1);
 		Collection<String> collection1 = new ArrayList<String>();
+		collection1.add("1번");
 		collection1.add("2번");
+		collection1.add("3번");
+		collection1.add("4번");
+		System.out.println(collection1);
 //		collection1.add("3번");
 		list1.removeAll(collection1);//2번이 사라짐 왜냐 2번의 주소값이 1이므로
 //		그리고 지우면 아래있는걸 올려줌
 //		list.clear();
+		System.out.println(collection1);
 		if(list1 instanceof ArrayList) {
 		@SuppressWarnings("unchecked")
 		ArrayList<String>copyList =  (ArrayList<String>)(((ArrayList<String>)list1).clone());
-		System.out.println(list1);
 		}
 	}
 	public void testHashSet() {

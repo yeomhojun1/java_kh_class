@@ -95,7 +95,7 @@ public class TestApi {
 		System.out.println(str2);
 		System.out.println(str2.indexOf("bc"));
 		StringBuilder str3 = new StringBuilder();
-		Scanner sc = new Scanner(System.in);
+//		Scanner sc = new Scanner(System.in);
 //		System.out.println("구분자를 입력해주세요");
 //		String token = sc.nextLine();
 //		System.out.println("내용을 입력해주세요");
@@ -116,7 +116,9 @@ public class TestApi {
 		String s = "35";
 		i = Integer.parseInt(s);
 		System.out.println(i);
-		
+		System.out.println(s1);
+		System.out.println(s2);
+		System.out.println(s3);
 		
 		
 		

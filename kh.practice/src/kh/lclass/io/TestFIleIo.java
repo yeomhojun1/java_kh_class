@@ -175,7 +175,7 @@ public class TestFIleIo {
 			int cntPerRead = 50;
 			char[] readCharArr = new char[600];// char뒤에 공간이 20개 만들어져있음
 			for (int i = 0; i < readCharArr.length / 50; i++) {
-				int readCnt = fr.read(readCharArr, i * 50, 50);// 가운데숫자는 offset으로 공실임,
+				int readCnt = fr.read(readCharArr, i*50, cntPerRead);// 가운데숫자는 offset으로 공실임,
 //				마지막숫자는 뒤에 들어가는 개수
 				System.out.println(readCnt);// 50 : 문자 4개 읽었음
 				if (readCnt < 50) {

@@ -56,7 +56,7 @@ public class BubbleSort {
 		while(strToken.hasMoreTokens()) {
 			nameList.add(strToken.nextToken());
 		}//버블 정렬하기
-		
+		System.out.println();
 		
 		
 		

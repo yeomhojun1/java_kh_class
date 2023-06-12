@@ -35,7 +35,6 @@ public class TcpClient {
 			//6. 보조 스트림을 통해 성능 개선
 			br = new BufferedReader(new InputStreamReader(in));
 			pr = new PrintWriter(new OutputStreamWriter(out));
-			
 			String sendMsg= null;
 			System.out.print("메세지>>");
 			sendMsg = stdIn.readLine();//console에 입력한 문자를 읽어들이기

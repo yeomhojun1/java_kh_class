@@ -36,7 +36,14 @@ public class ServerPractice {
 		}catch(IOException e) {
 			e.printStackTrace();
 		}finally {
-			
+			try {
+				if(wr != null) wr.close();
+				if(br != null) br.close();
+				if(out != null) out.close();
+				if(in != null) in.close();
+			}catch(IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }

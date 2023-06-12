@@ -10,7 +10,7 @@ import java.io.InputStreamReader;
 
 public class FileRead {
 	public void readFileB() {
-		String path = "D:/data2/test";
+		String path = "D:/data/test";
 		String filename= "b.txt";
 		new File(path).mkdirs();
 		File f2= new File(path, filename);
@@ -36,7 +36,7 @@ public class FileRead {
 	public void fileRead1() {
 		
 	
-	String filePath= "D:/data2/test/b.txt";
+	String filePath= "D:/data/test/b.txt";
 	BufferedReader br = null;
 	try {
 		br= new BufferedReader(new InputStreamReader(new FileInputStream(filePath)));

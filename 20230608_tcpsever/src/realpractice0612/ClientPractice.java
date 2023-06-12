@@ -18,7 +18,7 @@ public class ClientPractice {
 	OutputStream out = null;
 	BufferedReader br= null;
 	PrintWriter pr = null;
-	BufferedReader stdIn= new BufferedReader(new InputStreamReader(in));
+	BufferedReader stdIn= new BufferedReader(new InputStreamReader(System.in));
 	try {
 		sc = new Socket(ip, port);
 		in = sc.getInputStream();

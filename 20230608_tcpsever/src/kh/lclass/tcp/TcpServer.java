@@ -21,14 +21,17 @@ public class TcpServer {
 		BufferedWriter wr= null;
 		try {
 			ss= new ServerSocket(port);
+			System.out.println(ss.getInetAddress());
+			System.out.println(ss.getLocalPort());
 			while(true) {
 			System.out.println("클라이언트 접속 대기중.... ");
 //			3. 클라이언트 쪽에서 접속 요청이 오길 기다림 
 //			4.접속 요청이 오면 요청수락후 해당 클라이언트에 대한 소켓 객새 생성
 //			아래 코드가 3,4번을 한번에 수행함
 			sc=  ss.accept();
-			System.out.println("클라이언트 접속됨:"+sc.getLocalPort());
+			System.out.println("서버(나의) 접속됨:"+sc.getLocalPort());//9001
 			System.out.println("클라이언트 접속됨:"+sc.getPort());
+			System.out.println("클라이언트 접속됨:"+sc.getInetAddress().toString());
 			//5. 연결된 클라이언트와 입출력 스트림 생성
 			in = sc.getInputStream();
 			out = sc.getOutputStream();

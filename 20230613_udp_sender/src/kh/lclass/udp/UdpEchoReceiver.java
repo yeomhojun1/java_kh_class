@@ -22,13 +22,13 @@ public class UdpEchoReceiver {
 				byte[] byteMsg= new byte[1000];
 				DatagramPacket receivedData= new DatagramPacket(byteMsg , byteMsg.length);
 				dSock.receive(receivedData);
-//				System.out.println("전달받은 정보");
-//				
-//				System.out.println(byteMsg.length);
-//				System.out.println(receivedData.getAddress());
-//				System.out.println(receivedData.getPort());
-//				System.out.println(receivedData.getData().length);
-//				System.out.println(receivedData.getLength());
+				System.out.println("전달받은 정보");
+				
+				System.out.println(byteMsg.length);
+				System.out.println(receivedData.getAddress());
+				System.out.println(receivedData.getPort());
+				System.out.println(receivedData.getData().length);
+				System.out.println(receivedData.getLength());
 				String receivedStr = new String(receivedData.getData());
 				System.out.println("수신메시지 : "+receivedStr);
 				//echo 메시지 송신

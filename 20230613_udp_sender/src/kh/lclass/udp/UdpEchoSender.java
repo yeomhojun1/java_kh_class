@@ -19,10 +19,12 @@ public class UdpEchoSender {
 		int destPort= 6001;
 		String destName= "localhost";
 		DatagramSocket dSock = null;
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedReader br = null;
 		try {
+		
 			//DatagramSocket 객체 생성
 			dSock = new DatagramSocket(myPort);
+			br = new BufferedReader(new InputStreamReader(System.in));
 			//매개인자 없으면 자동 port번호 할당
 //			매개인자 지정하면 해당 포트 번호로 소켓 생성
 			while(true) {
@@ -42,6 +44,8 @@ public class UdpEchoSender {
 					DatagramPacket sendData= new DatagramPacket(byteMsg , byteMsg.length ,destIp, destPort);
 //			6. 소켓 레퍼런스를 사용해서 메시지 전송
 					dSock.send(sendData);
+				}catch(UnknownHostException e) {
+					e.printStackTrace();
 				} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -49,13 +53,17 @@ public class UdpEchoSender {
 				byte[] byteMsg= new byte[1000];
 				DatagramPacket receiveData= new DatagramPacket(byteMsg , byteMsg.length);
 				dSock.receive(receiveData);
+				String receiverdStr= new String(receiveData.getData());
+				System.out.println("Echo메시지 :"+ receiverdStr);
 				}
+		}catch (SocketException e)	{
+			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}finally {
-			if(br != null)
+			
 				try {
-					br.close();
+					if(br != null) br.close();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

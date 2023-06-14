@@ -13,7 +13,7 @@ public class Problem25304 {
 			int c = sc.nextInt();
 			int d = sc.nextInt();
 			arr[i]=c*d;
-			int e = 
+//			int e = 
 		}
 	}
 

@@ -27,7 +27,7 @@ public class ClientGUI extends JFrame implements ActionListener{
 		setTitle(nickname+"님 창");
 		jta.setEditable(false);
 		jta.setFont(new Font("맑은고딕", Font.PLAIN, 18));
-		jta.setBackground(new Color(10,10,100));
+		jta.setBackground(new Color(100,70,100));
 		
 		add(jta, BorderLayout.CENTER);
 		add(jtf, BorderLayout.SOUTH);
@@ -41,6 +41,8 @@ public class ClientGUI extends JFrame implements ActionListener{
 	public void appendMsg(String msg) {
 		//jta (채팅창)에 msg를 추가함
 		jta.append(msg);
+		jta.append("\n");
+		
 	}
 	
 	

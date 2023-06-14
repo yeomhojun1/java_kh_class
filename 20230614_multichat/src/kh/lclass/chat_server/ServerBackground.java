@@ -8,6 +8,7 @@ import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +27,8 @@ public class ServerBackground {
 	private int count;//현재 접속자 수
 	//서버 생성 및 설정
 	public void setting() {
+		//참고: 동시 접속자로 map에 정보가 동기화되어 들어가도록 설정함.
+		Collections.synchronizedMap(mapClients);
 		try {
 			ss= new ServerSocket(7777);
 			while(true) {//방문자 접속을 게속 받아들임. 무한반복함. 
@@ -50,7 +53,6 @@ public class ServerBackground {
 		System.out.println();
 	}
 
-		
 
 	public void setNickName(String nickName) {
 		this.nickName =nickName;
@@ -58,19 +60,25 @@ public class ServerBackground {
 	public void setGui(ServerGUI gui) {
 		this.gui=gui;
 	}
+	
+
 	public void sendMessage(String msg) {
 //		client들 모두에게 msg전달
 		Set<String> keys= mapClients.keySet();
 		for(String key: keys) {
 			BufferedWriter wr= mapClients.get(key);
 			try {
-				wr.write(msg+"\n");
+				wr.write(key+" : "+msg+"\n");
 				wr.flush();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public void sendAll(String msg) {
+		
 	}
 	//*********************inner class*********
 	class Client extends Thread{
@@ -96,6 +104,7 @@ public class ServerBackground {
 				e.printStackTrace();
 			}
 		}
+		
 		@Override
 		public void run() {
 			//클라이언트마다 각각에서 전달되어오는 메시지확인

@@ -52,7 +52,9 @@ public class ServerBackground {
 		gui.appendMsg(nickname+"님이 접속했습니다.");
 		System.out.println();
 	}
-
+	public void removeClient(String nickname) {
+		gui.appendMsg(nickname+"님이 나가셨습니다.");
+	}
 
 	public void setNickName(String nickName) {
 		this.nickName =nickName;
@@ -92,7 +94,7 @@ public class ServerBackground {
 				br= new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				bw= new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 				//접속되면 바로 nickname이 전달될 것이므로 읽음
-				String nickname= br.readLine();
+				nickname= br.readLine();
 				//서버 화면에 표현
 				addClient(nickname);
 				//client outputStream 관리
@@ -110,14 +112,16 @@ public class ServerBackground {
 			//클라이언트마다 각각에서 전달되어오는 메시지확인
 			//client와 입력 통로가 끊어지지 않는다면 계속반복확인함
 			//client에서 수신받은 msg,client마다 각각 동작해야해서 새로 클래스를 만들어준거임.
-			while(br!=null) {
-				try {
+			try {
+				while(br!=null) {
 					String msg = br.readLine();
 					gui.appendMsg(msg);
-					
+				}	
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+					removeClient(nickname);
+					sendMessage(nickname+"님이 나갔습니다.");
 				}
 				
 			}
@@ -128,4 +132,4 @@ public class ServerBackground {
 
 	
 	
-}
+

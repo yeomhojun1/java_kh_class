@@ -53,6 +53,7 @@ public class ServerBackground {
 		System.out.println();
 	}
 	public void removeClient(String nickname) {
+		mapClients.remove(nickname);
 		gui.appendMsg(nickname+"님이 나가셨습니다.");
 	}
 

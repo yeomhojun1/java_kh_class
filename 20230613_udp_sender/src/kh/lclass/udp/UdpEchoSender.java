@@ -64,11 +64,11 @@ public class UdpEchoSender {
 			
 				try {
 					if(br != null) br.close();
+					if(dSock != null) dSock.close();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			if(dSock != null) dSock.close();
 		}
 		
 		

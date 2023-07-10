@@ -34,6 +34,7 @@ public class UdpEchoReceiver {
 				//echo 메시지 송신
 //				5. 전송할 메시지를 DatagramPacket 객체에 담음
 				DatagramPacket sendData= new DatagramPacket(receivedData.getData() ,receivedData.getLength() ,receivedData.getAddress(), receivedData.getPort());
+				System.out.println(sendData);
 ////			
 				dSock.send(sendData);
 				}

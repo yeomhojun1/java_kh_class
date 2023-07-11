@@ -150,3 +150,113 @@ select emp.ename, emp.deptno, dept.dname, dept.loc
     from emp
     join dept using (deptno)
     ;
+    
+    
+    
+select ename, dept.deptno, dname, loc
+FROM emp, dept
+where emp.deptno= dept.deptno
+    and loc='DALLAS';
+
+SELECT EMPNO, LOC
+    FROM DEPT CROSS JOIN EMP
+    ;
+    
+SELECT * FROM EMP;
+SELECT * FROM SALGRADE;
+--사원의 이름, 사번, sal, grade를 조회
+select ename, empno, sal, grade 등급
+from emp e
+join salgrade s on e.sal between s.losal and s.hisal
+order by s.grade desc, e.sal
+;
+
+
+
+select empno, ename mgr from emp;
+select e.empno, e.ename, m.empno, m.ename mgrname 
+from emp e 
+join emp m on e.empno= m.mgr
+;
+select ename from emp where empno=7566;
+
+create table t1(c1 char(5), c2 varchar2(5));
+insert into t1 values('12','12');
+commit;
+select length(c1), length(c2)from t1;
+
+DESC T1;
+DESC EMP;
+--ERD(entity relationship diagram)
+--uml - classDiagram, erd
+
+SELECT * FROM EMP;
+
+SELECT EMPNO, ENAME,JOB
+FROM EMP
+WHERE SAL IN (SELECT MAX(SAL) FROM EMP GROUP BY DEPTNO);
+
+SELECT EMPNO, ENAME,JOB, HIREDATE
+FROM EMP
+WHERE (DEPTNO, JOB) IN (SELECT DEPTNO, JOB FROM EMP WHERE SAL>2000 AND COMM>200);
+
+SELECT EMPNO, ENAME, JOB, SAL
+FROM EMP
+WHERE (JOB, SAL) IN (SELECT JOB,MAX(SAL) FROM EMP GROUP BY JOB) ORDER BY 3;
+
+--SELECT ENAME, JOB, SAL
+--FROM EMP E
+--WHERE SAL IN (SELECT MAX(SAL) FROM EMP GROUP BY DEPTNO)
+--WHERE ENAME IN (SELECT ENAME FROM EMP WHERE LIKE 'E');
+
+SELECT * FROM EMP WHERE DEPTNO IN (20,30) 
+ORDER BY ENAME ASC
+;
+SELECT ROWNUM,E.* FROM EMP E WHERE DEPTNO IN(20,30) ORDER BY ENAME ASC;
+SELECT ROWNUM,E.* FROM EMP E WHERE DEPTNO IN(20,30) ;
+
+SELECT ROWNUM,E.* 
+FROM (SELECT * FROM EMP ORDER BY ENAME ASC) E WHERE DEPTNO IN(20,30);
+
+--1PAGE 1-3
+SELECT ROWNUM,E.* 
+FROM (SELECT * FROM EMP WHERE DEPTNO IN(20,30) ORDER BY ENAME ASC) E;
+
+SELECT ROWNUM,E.* 
+FROM (SELECT * FROM EMP WHERE DEPTNO IN(20,30) ORDER BY ENAME ASC) E
+WHERE ROWNUM BETWEEN 1 AND 3
+;
+--오류남 왜나면 SELECT에서 RNUM을 선언했는데 그 전에 수행되는 WHERE에 RNUM이 있어서 인식못함
+SELECT ROWNUM RNUM,E.* 
+FROM (SELECT * FROM EMP WHERE DEPTNO IN(20,30) ORDER BY ENAME ASC) E
+WHERE RNUM BETWEEN 4 AND 6
+;
+
+SELECT *
+FROM (SELECT ROWNUM RNUM, E.*
+    FROM(SELECT * FROM EMP WHERE DEPTNO IN (20,30) ORDER BY ENAME ASC) E
+    )
+    WHERE RNUM BETWEEN 7 AND 9;
+    
+WITH ABC AS (SELECT ROWNUM RNUM, E.*
+    FROM (SELECT * FROM EMP WHERE DEPTNO IN (20,30) ORDER BY ENAME ASC) E)
+SELECT *
+FROM ABC
+WHERE RNUM BETWEEN 7 AND 9;
+    
+WITH ABC AS (SELECT ROWNUM RNUM, E.*
+    FROM (SELECT * FROM EMP WHERE DEPTNO IN (20,30) ORDER BY ENAME ASC) E)
+SELECT *
+FROM ABC
+WHERE RNUM BETWEEN 7 AND 9 
+--ABC가 마치 새로운 테이블 처럼 사용가능함.
+--AND SAL>(SELECT AVG(SAL) FROM ABC)
+;
+CREATE VIEW VIEW_ABC
+AS
+SELECT ROWNUM RNUM, E.*
+    FROM (SELECT * FROM EMP WHERE DEPTNO IN (20,30) ORDER BY ENAME ASC) E;
+
+SELECT * FROM VIEW_ABC;
+
+

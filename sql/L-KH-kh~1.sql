@@ -119,6 +119,38 @@ select count(dept_code), count(bonus) from employee where dept_code is null;
 select count(dept_code), count(distinct dept_code)
 from employee;
 
+--사원명, 부서번호,부서명, 부서위치를 조회
+SELECT tb1.emp_name, tb1.dept_code,dept_title, tb2.location_id,tb3.national_code, tb4.national_name
+    from employee tb1
+    join department tb2 on tb1.dept_code=tb2.dept_id
+    join location tb3 on tb2.location_id= tb3.local_code
+    join national tb4 on tb3.national_code= tb4.national_code
+;
+--using을 썼을때는 national_code가 하나로 합쳐져서 앞에 national.같은걸 써주면 안됨
+SELECT tb1.emp_name, tb1.dept_code,dept_title, tb2.location_id,national_code, tb4.national_name
+    from employee tb1
+    join department tb2 on tb1.dept_code=tb2.dept_id
+    join location tb3 on tb2.location_id= tb3.local_code
+    join national tb4  using (national_code)
+;
 
+
+
+--두개가 결과가 같음 여기는 where과 and를 사용
+SELECT tb1.emp_name, tb1.dept_code,dept_title, tb2.location_id,tb3.national_code, tb4.national_name
+    from employee tb1,department tb2, location tb3, national tb4
+     where tb1.dept_code=tb2.dept_id
+     and tb2.location_id= tb3.local_code
+     and tb3.national_code= tb4.national_code
+;
+--FROM 뒤에 나오는 EMPLOYEE가 기준임
+SELECT *
+FROM EMPLOYEE E
+JOIN DEPARTMENT D ON E.dept_code= D.dept_id;
+
+SELECT *
+FROM EMPLOYEE E
+LEFT OUTER JOIN DEPARTMENT D ON E.dept_code= D.dept_id
+;
 
 

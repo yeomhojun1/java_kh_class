@@ -142,7 +142,8 @@ where email like '____#_%' escape '#' and dept_code in ('D9','D6') and
 HIRE_DATE between TO_DATE(19900101, 'YYYYMMDD') and TO_DATE(20001201, 'YYYYMMDD')
 and salary>=2700000;
 --15. EMPLOYEE테이블에서 사원 명과 직원의 주민번호를 이용하여 생년, 생월, 생일 조회
-select 
+select EXTRACT(year from substr(emp_no),EXTRACT(month from emp_no),EXTRACT(day from emp_no)
+from employee;
 
 
 

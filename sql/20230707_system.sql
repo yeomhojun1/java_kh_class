@@ -259,4 +259,101 @@ SELECT ROWNUM RNUM, E.*
 
 SELECT * FROM VIEW_ABC;
 
+select empno, ename, sal
+from emp
+where sal < all(select sal from emp where job = 'SALESMAN');
+--관리자로 등록되어있는 사원들을 조회
+select empno, ename
+from emp e
+--여기까지 메인쿼리
+where exists(select empno from emp e2 where e.empno=e2.mgr);
+--exist아래잇는 select는 상관커리, 그리고 join이랑 같은 상황
+select * from emp;
+select  distinct e.empno, e.ename
+from emp e join emp e2
+on e.empno= e2.mgr;
+--join 대비 상관커리(exist)를 쓰면 속도가 매우 빨라짐
+
+--부서 번호가 30인 사원들으 ㅣ급여와 부서번호를 묶어 메인 쿼리로 전달해보자
+select *
+    from emp e
+    where(deptno,sal) in (select deptno, sal from emp e2 where deptno=30)
+;
+--부서별 평균급여와 직원들 정보를 조회해주세요
+select e.*,
+--스칼라 서브쿼리 작성되어야함.
+    (select trunc(avg(sal)) from emp e2 where e2.deptno=e.deptno) 평균
+from emp e
+order by deptno asc
+;
+--select e.*,
+--    case e.deptno
+--        when 10 then (select trunc(avg(sal)) from emp e2 where e2.deptno=10)
+--         when 20 then (select trunc(avg(sal)) from emp e2 where e2.deptno=20)
+--          when 30 then (select trunc(avg(sal)) from emp e2 where e2.deptno=30)
+--        end
+--        from emp e;
+--직원 정보와 부서번호, 부서명, 부서위치
+select ename, deptno, dname, loc
+from emp  join dept using (deptno)
+;
+
+select ename, deptno, 
+    (select dname from dept d where e.deptno= d.deptno) 직업,
+     (select loc from dept d where e.deptno= d.deptno) 위치
+from emp e
+;
+--SALESMAN과 'MANAGER'를 조회해쥇요
+SELECT * FROM EMP
+WHERE JOB='SALESMAN' OR JOB= 'MANAGER';
+SELECT * FROM EMP
+WHERE JOB IN('SALESMAN', 'MANAGER');
+SELECT EMPNO,ENAME,JOB FROM EMP WHERE JOB='SALESMAN' 
+UNION
+SELECT MGR,ENAME,JOB FROM EMP WHERE JOB='MANAGER';
+--급여가 1000미만인 직원, 2000미만인 직원 조회-중복 포함 결과
+SELECT EMPNO,ENAME,SAL FROM EMP WHERE SAL<1000 
+UNION ALL
+SELECT  EMPNO,ENAME,SAL FROM EMP WHERE SAL<2000; 
+--급여가 1000초과인 직원, 2000미만인 직원 조회-중복 포함 결과
+SELECT EMPNO,ENAME,SAL FROM EMP WHERE SAL>1000 
+INTERSECT
+SELECT  EMPNO,ENAME,SAL FROM EMP WHERE SAL<2000; 
+--급여가 2000미만인 직원을 제외하고 조회-MINUS
+SELECT EMPNO,ENAME,SAL FROM EMP ;
+MINUS
+SELECT  EMPNO,ENAME,SAL FROM EMP WHERE SAL<2000; 
+--NOT EXISTS
+SELECT EMPNO,ENAME,SAL FROM EMP E
+    WHERE NOT EXISTS(SELECT EMPNO,ENAME,SAL FROM EMP WHERE E.SAL<2000);
+
+
+SELECT * FROM EMPLOYEE;
+SELECT DEPT_CODE, JOB_CODE, mANAGER_ID, FLOOR(AVG(SALARY))
+FROM EMPLOYEE
+GROUP BY DEPT_CODE, JOB_CODE, MANAGER_ID;
+
+
+
+DESC USER_CONSTRAINTS;
+SELECT * FROM USER_CONSTRAINTS;
+SELECT * FROM USER_TABLES;
+SELECT * FROM USER_VIEWS;
+--NOT NULL예시
+CREATE TABLE USER_NOTNULL(
+
+USER_NO NUMBER NOT NULL,
+USER_ID VARCHAR2(20) NOT NULL,
+USER_PWD VARCHAR2(30) NOT NULL,
+USER_NAME VARCHAR2(30),
+GENDER VARCHAR2(10),
+PHONE VARCHAR2(30),
+EMAIL VARCHAR2(50)
+
+);
+INSERT INTO USER_NOTNULL VALUES(1, 'user01', 'pass01', '홍길동', '남', '010-1234-5678’,
+‘hong123@kh.or.kr’)
+;
+
+
 

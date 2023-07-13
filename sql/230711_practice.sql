@@ -205,8 +205,64 @@ group by grade order by 2 desc;
 --3. 순서는 평균연봉이 내림차순으로 정렬한다.
 select deptno, avg(sal*12+nvl(comm,0)) a
 from emp e
-join 
-where;
+join salgrade s on e.sal between s.losal and s.hisal
+where deptno in (20,30) group by deptno 
+order by a desc;
+--3페이지 Q. 5
+--사원의 MGR의 이름을 아래와 같이 Manager컬럼에 조회 - 정렬
+select e.empno, e.ename, e.job, e.mgr, m.ename
+from emp e
+join emp m on e.mgr = m.empno
+order by e.empno;
+--3페이지 Q. 6
+--사원의 MGR의 이름을 아래와 같이 Manager컬럼에 조회 - 정렬
+--단, Select 절에 SubQuery를 이용하여 풀이
+select empno, ename,job, mgr, (select ename from emp m where m.empno=e.mgr)
+from emp e
+order by e.mgr, e.empno desc;
+--3페이지 Q. 7
+--MARTIN의 월급보다 많으면서 ALLEN과 같은 부서이거나 20번부서인 사원 조회
+select empno, ename, job, mgr, hiredate, sal, comm,deptno
+from emp
+where sal >(select sal from emp where ename in 'MARTIN') and (deptno=(select deptno from emp where ename in 'ALLEN') OR DEPTNO=20);
+--3페이지 Q. 8
+--‘RESEARCH’부서의 사원 이름과 매니저 이름을 나타내시오.
+SELECT ename, (select ename from emp m where e.mgr=m.EMPNO ) 
+from emp e, dept d
+where e.deptno=d.deptno and d.dname in 'RESEARCH'
+ORDER BY 1 ASC;
+--3페이지 Q. 9
+--GRADE별로 급여을 가장 작은 사원명을 조회
+select s.grade, e.ename 
+from emp e, salgrade s
+where (grade, sal) IN (select grade, min(sal) from emp, salgrade where sal >= losal and sal <= hisal group by grade);
+--3페이지 Q. 10.
+--GRADE별로 가장 많은 급여, 가장 작은 급여, 평균 급여를 조회
+select s.grade, max(sal), min(sal), round(avg(sal),2)
+from emp e, salgrade s
+where sal between losal and hisal 
+group by grade;
+--3페이지 Q. 11
+--GRADE별로 평균급여에 10프로내외의 급여를 받는 사원명을 조회 - 정렬
+Create or replace view view_emp_salgrade 
+as
+select e.empno, e.ename, job, mgr, hiredate, sal, comm, deptno, grade, losal, hisal
+    from emp e join salgrade s
+        on e.sal between s.losal and s.hisal
+;
+select t1.grade, ename "10프로내외"
+    from view_emp_salgrade t1
+    where sal between (select avg(t2.sal) from view_emp_salgrade t2 where t2.grade = t1.grade)*0.9 
+    and (select avg(t2.sal) from view_emp_salgrade t2 where t2.grade = t1.grade)*1.1
+    order by t1.grade asc, 2 asc
+;
+-- group by 사용시 
+-- select 컬럼명으로는 group by에 사용된 컬럼명 작성가능. 그리고 그룹함수 사용가능.
+            select floor(avg(e2.sal)*0.9) minsal, floor(avg(e2.sal)*1.1) maxsal, floor(avg(e2.sal)) avgsal, s2.grade, s2.losal, s2.hisal
+                from emp e2 join salgrade s2 on e2.sal between s2.losal and s2.hisal
+                group by s2.grade , s2.losal, s2.hisal
+                ;
+
 ---------------
 select * from user_tables;
 select * from dept;

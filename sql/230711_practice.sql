@@ -171,9 +171,21 @@ from employee;
 --21. EMPLOYEE테이블에서 직원 명, 부서코드, 생년월일, 나이(만) 조회
 --(단, 생년월일은 주민번호에서 추출해서 00년 00월 00일로 출력되게 하며
 --나이는 주민번호에서 출력해서 날짜데이터로 변환한 다음 계산)
-select emp_name, dept_code, to_char(substr(emp_no,1,2))+to_char(substr(emp_no,3,2))
+select emp_name, dept_code, 
+     substr(emp_no,1,2) ||'년' || substr(emp_no,3,2)||'월 '||substr(emp_no,5,2)||'일 '  "생년월일"
+--만나이
+    ,extract(year from sysdate)-extract(month from sysdate)-extract(day from sysdate)
 --+substr(emp_no,5,2)
 from employee;
+select * from employee;
+select to_date(substr(emp_no,1,6),'rrmmdd')
+    ,  to_char(to_date(substr(emp_no,1,6),'rrmmdd'), 'yy"년" mm"월" dd"일"') "생년월일"
+    , floor((sysdate - to_date(substr(emp_no,1,6), 'rrmmdd'))/365) "만나이"
+    from employee;
+
+
+
+
 --------------------------~!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 ---추후에 2페이지 끝에 다시해야함
@@ -262,6 +274,141 @@ select t1.grade, ename "10프로내외"
                 from emp e2 join salgrade s2 on e2.sal between s2.losal and s2.hisal
                 group by s2.grade , s2.losal, s2.hisal
                 ;
+--4페이지 1번
+SELECT E.ENP_NAME, E.EMP_NO, D.DEPT_TITLE, J.JOB_NAME
+FROM EMPLOYEE E
+JOIN DEPT_ID ;
+--4페이지 2. 나이 상 가장 막내의 사원 코드, 사원 명, 나이, 부서 명, 직급 명 조회
+select * 
+from (  
+    select e.emp_id, e.emp_name,  extract(year from sysdate)-extract(year from to_date(substr(emp_no,1,2),'rr')) age, 
+    d.dept_title, j.job_name
+    from employee e
+    join department d on (e.dept_code= d.dept_id)
+    join job j using (job_code)
+    ) tb1
+    where age = minage
+    ;
+--4페이지 3. 이름에 ‘형’이 들어가는 사원의 사원 코드, 사원 명, 직급 조회
+SELECT E.EMP_ID, E.EMP_NAME, J.JOB_NAME
+FROM EMPLOYEE E
+JOIN JOB J ON E.JOB_CODE=J.JOB_CODE
+WHERE E.EMP_NAME LIKE ('%형%')
+;
+--4페이지 4. 부서코드가 D5이거나 D6인 사원의 사원 명, 직급 명, 부서 코드, 부서 명 조회
+SELECT E.EMP_NAME, J.JOB_NAME, E.DEPT_CODE, D.DEPT_TITLE
+FROM EMPLOYEE E
+JOIN JOB J ON E.JOB_CODE= J.JOB_CODE
+JOIN DEPARTMENT D ON D.DEPT_ID= E.DEPT_CODE
+WHERE E.DEPT_CODE IN ('D5','D6');
+--4페이지 5. 보너스를 받는 사원의 사원 명, 부서 명, 지역 명 조회
+SELECT EMP_NAME, E.BONUS, DEPT_CODE, L.LOCAL_NAME
+FROM EMPLOYEE E
+JOIN DEPARTMENT D ON D.DEPT_ID= E.DEPT_CODE
+JOIN LOCATION L ON L.LOCAL_CODE= D.LOCATION_ID
+WHERE BONUS IS NOT NULL;
+--4페이지 6. 사원 명, 직급 명, 부서 명, 지역 명 조회
+SELECT EMP_NAME, J.JOB_NAME, D.DEPT_TITLE, L.LOCAL_NAME
+FROM EMPLOYEE E
+JOIN JOB J USING (JOB_CODE)
+JOIN DEPARTMENT D ON E.DEPT_CODE = D.DEPT_ID
+JOIN LOCATION L ON L.LOCAL_CODE = D.LOCATION_ID
+ORDER BY D.DEPT_TITLE
+;
+--4페이지 7. 한국이나 일본에서 근무 중인 사원의 사원 명, 부서 명, 지역 명, 국가 명 조회
+SELECT EMP_NAME, D.DEPT_TITLE, L.LOCAL_NAME, N.NATIONAL_NAME
+FROM EMPLOYEE E
+JOIN DEPARTMENT D ON E.DEPT_CODE = D.DEPT_ID
+JOIN LOCATION L ON L.LOCAL_CODE = D.LOCATION_ID
+JOIN NATIONAL N USING (NATIONAL_CODE)
+WHERE NATIONAL_NAME IN ('한국','일본')
+;
+--4페이지 8. 한 사원과 같은 부서에서 일하는 사원의 이름 조회
+SELECT E.EMP_NAME, M.DEPT_CODE, M.EMP_NAME
+FROM EMPLOYEE E, EMPLOYEE M
+WHERE E.DEPT_CODE=M.DEPT_CODE AND M.EMP_NAME != E.EMP_NAME
+;
+--4페이지 9. 보너스가 없고 직급 코드가 J4이거나 J7인 사원의 이름, 직급 명, 급여 조회(NVL 이용)
+SELECT EMP_NAME, J.JOB_NAME, E.SALARY
+FROM EMPLOYEE E
+JOIN JOB J USING (JOB_CODE)
+WHERE E.BONUS IS NULL AND JOB_CODE IN ('J4','J7')
+;
+--4페이지 10. 보너스 포함한 연봉이 높은 5명의 사번, 이름, 부서 명, 직급, 입사일, 순위 조회
+SELECT rownum,EMP_NO, EMP_NAME, D.DEPT_TITLE, J.JOB_NAME, HIRE_DATE
+FROM
+(select * 
+from employee e
+ORDER BY 
+    CASE 
+        WHEN BONUS IS NULL THEN SALARY*12
+        WHEN BONUS IS not NULL THEN SALARY*12+(salary*bonus)
+     end
+     desc) 
+JOIN DEPARTMENT D ON D.DEPT_ID=DEPT_CODE
+JOIN JOB J USING (JOB_CODE)
+
+
+;
+
+
+
+
+
+
+
+
+
+SELECT * FROM EMPLOYEE;
+SELECT * FROM JOB;
+SELECT * FROM DEPARTMENT;
+
+select e.emp_id, e.emp_name, extract(year from sysdate)-extract(year from to_date(substr(emp_no,1,2),'rr') "나이", 
+d.dept_title, j.job_name
+from employee e
+join department d on (e.dept_code= d.dept_id)
+join job j using (job_code)
+;
+select  extract(year from sysdate)-extract(year from to_date(substr(emp_no,1,2),'rr'))
+
+
+select * from location;
+select * from national;
+
+--4페이지 8. 한 사원과 같은 부서에서 일하는 사원의 이름 조회
+select e1.emp_name, e1.dept_code, e2.emp_name
+    from employee e1
+    join employee e2 on e1.dept_code=e2.dept_code and e1.emp_name <> e2.emp_name
+  
+    order by e1.emp_name
+;
+
+
+--춘대학교 2-4
+select student_name, student_ssn, entrance_date from tb_student;
+select * from(
+select student_name, student_ssn, entrance_date
+    , extract(year from to_date(substr(student_ssn,1,2),'rr')) birth
+     , extract(year from entrance_date) entr
+     ,extract(year from entrance_date) - extract(year from to_date(substr(student_ssn,1,2),'rr'))+1 aaa
+    from tb_student) tb1
+    where tb1.aaa>20;
+select entrance_date
+from tb_student;
+--caseTjqhrl
+
+select * from(
+select student_name, student_ssn, entrance_date
+    , case when (substr(student_ssn,1,2)) > 23 then substr(student_ssn,1,2)+1900
+    else substr(student_ssn,1,2)+2000
+    end birth
+     , extract(year from entrance_date) entr
+     ,extract(year from entrance_date) - extract(year from to_date(substr(student_ssn,1,2),'rr'))+1 aaa
+    from tb_student) tb1
+    where tb1.aaa>20;
+
+
+
 
 ---------------
 select * from user_tables;
@@ -270,7 +417,6 @@ select * from emp;
 select * from salgrade;
 select * from national;
 select * from bonus;
-select* from employee;
 select* from EMPLOYEE;
 select* from DEPARTMENT;
 select* from JOB;
@@ -283,98 +429,9 @@ select* from SAL_GRADE;
 --생성먼저
 -- 03- 11. GRADE별로 평균급여에 10프로내외의 급여를 받는 사원명을 조회 - 정렬
 -- where 에 subquery 활용
-select s.grade, e.ename , e.sal
-    from emp e join salgrade s  on e.sal between s.losal and s.hisal
-    where e.sal > 
-    -- 다중 행 결과물과 >= 비교 안됨.(950, 1266, 1550, 2879, 5000 )
-            (
-            select avg(sal)
-                from emp e2 join salgrade s2
-                    on e2.sal between s2.losal and s2.hisal
-                where s2.grade = s.grade
-                --group by s2.grade having s2.grade = 4
-            )*0.9
-            and e.sal <
-            (
-            select avg(sal)
-                from emp e2 join salgrade s2
-                    on e2.sal between s2.losal and s2.hisal
-                where s2.grade =  s.grade
-                --group by s2.grade having s2.grade = 4
-            )*1.1
-;
-select avg(sal) , s.grade
-    from emp e join salgrade s
-        on e.sal between s.losal and s.hisal
-    group by s.grade
-;
--- select에서 rownum 반드시 별칭
--- select에서 함수사용한 경우 반드시 별칭
--- with 사용
-with abc3 as ( select s.grade, e.ename , e.sal
-    from emp e join salgrade s
-        on e.sal between s.losal and s.hisal )
-select *
-    from abc3 t1
-    where sal between (select avg(t2.sal) from abc3 t2 where t2.grade = t1.grade)*0.9 
-    and (select avg(t2.sal) from abc3 t2 where t2.grade = t1.grade)*1.1
-;
-select t1.grade, ename "10프로내외"
-    from view_emp_salgrade t1
-    where sal between (select avg(t2.sal) from view_emp_salgrade t2 where t2.grade = t1.grade)*0.9 
-    and (select avg(t2.sal) from view_emp_salgrade t2 where t2.grade = t1.grade)*1.1
-    order by t1.grade asc, 2 asc
-;
-Create or replace view view_emp_salgrade 
-as
-select e.empno, e.ename, job, mgr, hiredate, sal, comm, deptno, grade, losal, hisal
-    from emp e join salgrade s
-        on e.sal between s.losal and s.hisal
-;
-
---  from 절 subquery
-select grade, ename "10프로내외"
-    from emp e join (
-            select floor(avg(e2.sal)*0.9) minsal, floor(avg(e2.sal)*1.1) maxsal, floor(avg(e2.sal)) avgsal, s2.grade, s2.losal, s2.hisal
-                from emp e2 join salgrade s2 on e2.sal between s2.losal and s2.hisal
-                group by s2.grade , s2.losal, s2.hisal
-                ) m
-            on e.sal between minsal and maxsal
---            on e.sal between m.losal and m.hisal
---    where e.sal between minsal and maxsal
-    order by grade asc, 2 asc
-;
-with abc4 as (
-            select floor(avg(e2.sal)*0.9) minsal, floor(avg(e2.sal)*1.1) maxsal, floor(avg(e2.sal)) avgsal, s2.grade, s2.losal, s2.hisal
-                            from emp e2 join salgrade s2 on e2.sal between s2.losal and s2.hisal
-                            group by s2.grade , s2.losal, s2.hisal
-            )
-select grade, ename "10프로내외"
-    from emp e join abc4
-        on e.sal between minsal and maxsal
-    order by grade asc, 2 asc
-;
-
-
--- group by 사용시 
--- select 컬럼명으로는 group by에 사용된 컬럼명 작성가능. 그리고 그룹함수 사용가능.
-            select floor(avg(e2.sal)*0.9) minsal, floor(avg(e2.sal)*1.1) maxsal, floor(avg(e2.sal)) avgsal, s2.grade, s2.losal, s2.hisal
-                from emp e2 join salgrade s2 on e2.sal between s2.losal and s2.hisal
-                group by s2.grade , s2.losal, s2.hisal
-                ;
-
-select a.grade as grade, b.ename as 평균10프로내외인사원 
-from  (select s.grade as grade, avg(sal) as avgsal from emp e join salgrade s 
-on e.sal between s.losal and s.hisal group by s.grade) a 
-join emp b  
-on b.sal between a.avgsal * 0.9 and a.avgsal * 1.1
-order by a.grade asc, 평균10프로내외인사원 asc;
 
 
 
-select * from emp e join dept d on e.deptno=d.deptno;
-select * from salgrade;
-select * from dept;
 
 --3페이지 12번 
 --Q. 12

@@ -408,6 +408,43 @@ SELECT * FROM USER_CONSTRAINTS;
 SELECT * FROM USER_CONS_COLUMNS;
 
 CREATE SYNONYM EMPLOYEE FOR EMP;
+CREATE SEQUENCE SEQ_TB1_C1 STart WITH 10 INCREMENT BY 10 MAXVALUE 90 MINVALUE 10 NOCYCLE CACHE 20;
+--ORA-08002: 시퀀스 SEQ_TB1_C1.CURRVAL은 이 세션에서는 정의 되어 있지 않습니다
+--왜냐면 
+--08002. 00000 -  "sequence %s.CURRVAL is not yet defined in this session"
+--*Cause:    sequence CURRVAL has been selected before sequence NEXTVAL
+--*Action:   select NEXTVAL from the sequence before selecting CURRVAL
+SELECT SEQ_TB1_C1.CURRVAL FROM DUAL;
+SELECT SEQ_TB1_C1.NEXTVAL FROM DUAL;
+--ORA-08004: 시퀀스 SEQ_TB1_C1.NEXTVAL exceeds MAXVALUE은 사례로 될 수 없습니다
+--MAXVALUE에서 한번더 NEXTVAL을 입력하면 NOCYCLE이기 때문에 오류가 나옴
+--08004. 00000 -  "sequence %s.NEXTVAL %s %sVALUE and cannot be instantiated"
+--*Cause:    instantiating NEXTVAL would violate one of MAX/MINVALUE
+--*Action:   alter the sequence so that a new value can be requested
+
+--ROLE
+--접속관련된 설정-ORACLE 12 이후 버젼에서 FALSE 상태로 접속됨, 그래서 TRUE로 바꾼상태에서 해야함
+ALTER SESSION SET "_ORACLE_SCRIPT"=TRUE;
+CREATE ROLE SCOTTROLE1;
+CREATE ROLE ROLE_SCOTT_MANAGER;
+CREATE USER KH2 IDENTIFIED BY KH2;
+CREATE ROLE ROLE_MANAGER;
+
+GRANT CONNECT, RESOURCE TO KH2;
+--CONNECT-- 롤 이름
+--권한들으 ㅣ묶음= 롤
+--CREATE SESSION--접속권한
+--CONNECT를 포함하는것은 
+--CREATE TABLE,ALTER TABLE,DROP TABLE, CREATE VIEW, DROP VIEW, CREATE SEQUENCE,...
+--공간 SPATCE를 사용한 ㄴ권한들을 묶어서 RESOURCE 롤에 지정함
+GRANT CREATE TABLE, CREATE VIEW TO ROLE_MANAGER;
+--GRANT 권한명, 권한명,...롤명, 롤명,.. TO 롤명;
+GRANT ROLE_MANAGER TO KH2;
+--롤 매니저에게 줬던 CREATE VIEW 권한을 뺏어옴
+REVOKE CREATE VIEW FROM ROLE_MANAGER;
+
+
+
 
 
 SELECT * FROM all_users;

@@ -443,9 +443,29 @@ GRANT ROLE_MANAGER TO KH2;
 --롤 매니저에게 줬던 CREATE VIEW 권한을 뺏어옴
 REVOKE CREATE VIEW FROM ROLE_MANAGER;
 
+SELECT EMPNO, ENAME,NTILE(4) OVER(ORDER BY SAL) FROM EMP;
 
+desc dept;
+select * from dept;
+insert into dept values(10,'','');
+insert into dept values('&deptno값을 넣어주세요','&부서명','&지역');
+insert into dept values('&deptno','&부서명','&지역');
+commit;
 
+select * from emp
+where 
+ename like '%smith' --abcsmith,bbbsmith뭐든 smith가 들어간거 전부 찾음
+;
+select '&뭐라도입력' from dual;
+--'&' - 작은 따옴표 안에 & - escape 문자 : 특별한 역할 -대체문자입력창을 띄워줌
+--like '%' / like'_' - escape 문자 : 특별한 역할 - %문자0개이상, _문자1개
+--검색을 '&_'로 쓰고싶으면 set define off;를 써주면됨
+--검색을 _%로 하고싶으면 :like '$_$%' escape '$'
+set define off;
+insert into dept values(60, 'R&D', 'NEW YORK');
+SET DEFINE ON;
 
+SELECT * FROM EMP;
 
 SELECT * FROM all_users;
 SELECT * FROM user_tables;

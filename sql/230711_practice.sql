@@ -579,7 +579,6 @@ SELECT * FROM "TB_CLASS";
 SELECT * FROM "TB_STUDENT";
 SELECT * FROM "TB_PROFESSOR";
 SELECT * FROM "TB_DEPARTMENT";
-
 select * from user_tables;
 select* from EMPLOYEE;
 select* from DEPARTMENT;

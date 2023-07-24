@@ -27,8 +27,7 @@
 			<td>주소</td>
 			<td>입학년도</td>
 			<td>학과번호</td>
-			<td>학과이름</td>
-		
+		<td>학과이름</td>
 		</tr>
 		<% 
 		for(int i =0; i<volist.size();i++){
@@ -36,12 +35,13 @@
 		
 	%>
 	<tr>
-			<td><%= vo.getStudentNo() %></td>
-			<td><%= vo.getStudentName() %></td>
+			<td><a href="<%=request.getContextPath()%>/student/get?sno=<%=vo.getStudentNo() %>">    <%= vo.getStudentNo() %></a></td>
+			<td><a href="<%=request.getContextPath()%>/student/get2?sname=<%=vo.getStudentName() %>"> <%= vo.getStudentName() %></a></td>
 		<td><%= vo.getStudentSsn() %></td>
 		<td><%= vo.getStudentAddress() %></td>
 		<td><%= vo.getEntranceDate() %></td>
 		<td><%= vo.getDepartmentNo() %></td>
+		<td><%= vo.getDepartmentName() %></td>
 		</tr>
 		<%
 		}

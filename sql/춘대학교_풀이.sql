@@ -273,5 +273,6 @@ SELECT COUNT(*) CNT, CLASS_NO
     ORDER BY CNT DESC
     )
     WHERE 
-
-
+;
+select * from tb_department
+;

@@ -33,7 +33,8 @@ public class ProfessorGetController extends HttpServlet {
 		System.out.println(professorNo);
 		ProfDao dao = new ProfDao();
 		ProfVo vo = dao.selectOneProf(professorNo);
-		
+		request.setAttribute("profno", vo);
+		request.getRequestDispatcher("/WEB-INF/view/prof/get.jsp").forward(request, response);
 		
 	}
 

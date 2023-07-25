@@ -34,7 +34,7 @@ public class ProfessorGetController extends HttpServlet {
 		ProfDao dao = new ProfDao();
 		ProfVo vo = dao.selectOneProf(professorNo);
 		request.setAttribute("profno", vo);
-		request.getRequestDispatcher("/WEB-INF/view/prof/get.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/view/prof/profGet.jsp").forward(request, response);
 		
 	}
 

@@ -11,8 +11,29 @@
 <body>
 	<%
 	List<ProfVo> volist = (List<ProfVo>) request.getAttribute("proflist");
+	String a = (String)request.getAttribute("searchword");
 	%>
 
+<h2>교수 리스트</h2>
+	<DIV>
+		<form action="<%=request.getContextPath()%>/prof/list" method="get">
+			<input type="search" name="searchword"> 
+			<input type="submit" name="찾기">
+		</form>
+	</DIV>
+	<% if(a !=null){ 
+	%>
+	<h3><%=a %> 검색결과</h3>
+	<h3><a href="<%=request.getContextPath()%>/prof/list">전체 보기</a></h3>
+	<%
+	} 
+
+	if(volist==null||volist.size()==0){
+	%>
+	<h3>결과물이 없습니다</h3>
+	<%
+	}else{
+	%>
 	<table border="1">
 		<tr>
 			<td>학과번호</td>
@@ -42,5 +63,8 @@
 
 
 	</table>
+	<%
+		}
+		%>
 </body>
 </html>

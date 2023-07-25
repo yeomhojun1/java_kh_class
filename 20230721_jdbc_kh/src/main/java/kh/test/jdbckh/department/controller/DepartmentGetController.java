@@ -37,7 +37,7 @@ public class DepartmentGetController extends HttpServlet {
 		DeptDao dao= new DeptDao();
 		DeptVo vo = dao.selectOneDept(deptNo);
 	request.setAttribute("deptno", vo);
-		request.getRequestDispatcher("/WEB-INF/view/dept/get.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/view/dept/deptGet.jsp").forward(request, response);
 		
 	}
 

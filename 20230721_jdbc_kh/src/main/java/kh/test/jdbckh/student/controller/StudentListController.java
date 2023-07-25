@@ -30,16 +30,36 @@ public class StudentListController extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+//    C:\workspace\github\java_kh_class\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\work\Catalina\localhost\jdbckh\org\apache\jsp\WEB_002dINF\view\student
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("/student/list doGet() 진입");
-		//todo db
+		String searchword = request.getParameter("searchword");
+		String pageNoStr = request.getParameter("pageNo");
+		//String --> int
+		int currentPage = 1;
+		if(pageNoStr!=null) {
+			try {
+			currentPage= Integer.parseInt(pageNoStr);
+			}catch(NumberFormatException e) {
+				e.printStackTrace();
+			}
+		}
 		StudentDao dao = new StudentDao();
-		List<StudentVo> list = dao.selectListStudent();
+		List<StudentVo> list= null;
+		if(searchword !=null) {
+			//검색
+			System.out.println(searchword);
+			list = dao.selectListStudent(searchword);
+		}else {
+			//전체보기
+//		list = dao.selectListStudent();
+		//페이징처리
+			list = dao.selectListStudent(currentPage, 5);
+		}
+		if(searchword !=null) {
+			request.setAttribute("searchword", searchword);
+		}
 		request.setAttribute("studentlist", list);
-		request.setAttribute("aaa", "그냥 값테스트해봄");
-		request.setAttribute("bbb", "그냥 값테스트해봄2");
-		request.setAttribute("ccc", 333);
-		
 		request.getRequestDispatcher("/WEB-INF/view/student/list.jsp").forward(request, response);
 			
 	}

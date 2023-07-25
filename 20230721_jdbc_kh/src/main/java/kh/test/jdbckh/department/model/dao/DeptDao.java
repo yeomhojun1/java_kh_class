@@ -73,6 +73,62 @@ public class DeptDao {
 //System.out.println(list);
 		return list;
 	}
+	public List<DeptVo> selectListDept(String searchword) {
+		List<DeptVo> list = null;
+		Connection conn = null;
+	
+		PreparedStatement pstmt = null;
+		String sql = "select * from tb_department where department_name like ? or category like ?";
+		ResultSet rs = null;
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			conn = DriverManager.getConnection("jdbc:oracle:thin:@127.0.0.1:1521:XE", "kh", "kh");
+			
+			pstmt = conn.prepareStatement(sql);
+			searchword = "%"+searchword+"%";
+			pstmt.setString(1, searchword);
+			pstmt.setString(2, searchword);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				list = new ArrayList<DeptVo>();
+			
+			do {
+				DeptVo vo = new DeptVo();
+				vo.setDepartmentName(rs.getString("department_Name"));
+				vo.setDepartmentNo(rs.getString("department_No"));
+				vo.setCategory(rs.getString("category"));
+				vo.setOpenYn(rs.getString("open_Yn"));
+				vo.setCapacity(rs.getString("capacity"));
+
+				list.add(vo);
+
+			}while (rs.next() == true);
+			
+			}
+		} catch (ClassNotFoundException e) {
+			// 1.driver (ojdbc.jar) 없음
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// 2. dbms에 연결 실패
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+//		if(stmt!=null)  {stmt.close();}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+//System.out.println(list);
+		return list;
+	}
 
 	public DeptVo selectOneDept(String deptNo) {
 		DeptVo result = null;

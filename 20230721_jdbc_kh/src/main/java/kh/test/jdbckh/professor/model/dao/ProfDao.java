@@ -53,6 +53,54 @@ public class ProfDao {
 
 		return list;
 	}
+	public List<ProfVo> selectListProf(String a) {
+		List<ProfVo> list = null;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = "select * from tb_professor where professor_name like ? or professor_address like ?";//내가 뽑고자 하는 테이블
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");//드라이버 확인
+			conn = DriverManager.getConnection("jdbc:oracle:thin:@127.0.0.1:1521:xe", "kh", "kh");//SQL디벨로퍼에서의 주소,아이디, 비번을 입력해줘서 서버에 들어감
+			pstmt = conn.prepareStatement(sql);
+			a = "%"+a+"%";
+			pstmt.setString(1, a);
+			pstmt.setString(2, a);
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+			list = new ArrayList<ProfVo>();
+			
+			do {
+				ProfVo vo = new ProfVo();//VO객체를 생성했는데 텅 비어있음, 그리고 WHILE안에 있어서 계속 반복함 언제까지? 다음께 없을때까지
+				vo.setDepartmentNo(rset.getString("department_no"));
+				vo.setProfessorNo(rset.getString("Professor_No"));
+				vo.setProfessorName(rset.getString("Professor_Name"));
+				vo.setProfessorSsn(rset.getString("Professor_Ssn"));
+				vo.setProfessorAddress(rset.getString("Professor_Address"));
+				
+				list.add(vo);
+			}while (rset.next()) ;
+		}
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+			try {
+				if(rset!= null)rset.close();
+				if(pstmt!= null)pstmt.close();
+				if(conn!= null)conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		return list;
+	}
 	public ProfVo selectOneProf(String professorNo) {
 		ProfVo result = null;
 		Connection conn = null;

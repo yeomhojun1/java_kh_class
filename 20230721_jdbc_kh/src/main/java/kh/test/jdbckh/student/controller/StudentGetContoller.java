@@ -38,7 +38,7 @@ public class StudentGetContoller extends HttpServlet {
 		StudentDao dao= new StudentDao();
 		StudentVo vo = dao.selectOneStudent(studentNo);
 	request.setAttribute("sno", vo);
-		request.getRequestDispatcher("/WEB-INF/view/student/get.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/view/student/studentGet.jsp").forward(request, response);
 		
 	}
 

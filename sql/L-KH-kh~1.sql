@@ -688,15 +688,54 @@ SELECT DEPTNO, ENAME, SAL
 FROM EMP;
 
 
+select * from tb_department;
+
+select * from tb_student;
+select  student_name,  case when substr(student_ssn,14,1)=1   then '초4'
+when substr(student_ssn,14,1)=2  then '초5'
+when (substr(student_ssn,14,1)=3) then '초6'
+when (substr(student_ssn,14,1)=4) then '중1'
+when (substr(student_ssn,14,1)=5 ) then '중2'
+else '중3' 
+end  학년 
+,student_no
+,'010-'||substr(student_ssn,10,4)||'-'||substr(student_ssn,3,4) 부모전화번호
+from tb_student ;
+
+CREATE TABLE smyhj
+AS SELECT EMP_ID,EMP_NAME,DEPT_CODE,SALARY,BONUS
+FROM tb_student;
+SELECT * FROM EMP_SALARY;
 
 
+select * from
+(
+select tb1.*, rownum rn from
+(select * from tb_student 
+order by student_no) tb1
+) tb2
+where rn between 6 and 10
+;
+
+CREATE TABLE SMY( 
+STUDENT_NO VARCHAR2(30) NOT NULL,
+STUDENT_NAME VARCHAR2(30) NOT NULL,
+AGE NUMBER(2) NOT NULL,
+PHONE VARCHAR2(30) NOT NULL,
+
+PRIMARY KEY (STUDENT_NO)
+);
+;
+insert all
+into smy (STUDENT_NO,STUDENT_NAME,AGE,PHONE ) values (STUDENT_NO, STUDENT_NAME,AGE,PHONE )
+SELECT STUDENT_NO, STUDENT_NAME, EXTRACT(YEAR FROM SYSDATE)- (SUBSTR(STUDENT_SSN,1,2)+2000) AGE, '010-'||substr(student_ssn,10,4)||'-'||substr(student_ssn,2,4) PHONE
+FROM SM
+;
 
 
+SELECT * FROM SMY;
 
-
-
-
-
-
-
+--TO_NUMBER(0000)
+SELECT STUDENT_NO, STUDENT_NAME, EXTRACT(YEAR FROM SYSDATE)- (SUBSTR(STUDENT_SSN,1,2)+2000) AGE, '010-'||substr(student_ssn,10,4)||'-'||substr(student_ssn,2,4) PHONE
+FROM SM;
 

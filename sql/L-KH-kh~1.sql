@@ -88,6 +88,8 @@ case to_number( substr(emp_no,8,1))
     as "성별"
 from employee
 ;
+
+desc tb_student;
 select emp_name,emp_no,
 case  substr(emp_no,8,1)
     when '1' then '남'
@@ -732,7 +734,7 @@ SELECT STUDENT_NO, STUDENT_NAME, EXTRACT(YEAR FROM SYSDATE)- (SUBSTR(STUDENT_SSN
 FROM SM
 ;
 
-
+DROP TABLE SMY;
 SELECT * FROM SMY;
 
 --TO_NUMBER(0000)

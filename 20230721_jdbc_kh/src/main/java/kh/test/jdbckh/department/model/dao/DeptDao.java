@@ -1,5 +1,8 @@
 package kh.test.jdbckh.department.model.dao;
 
+import static kh.test.jdbckh.common.jdbc.JdbcTemplate.close;
+import static kh.test.jdbckh.common.jdbc.JdbcTemplate.getConnection;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -13,9 +16,9 @@ import kh.test.jdbckh.department.model.vo.DeptVo;
 import kh.test.jdbckh.student.model.vo.StudentVo;
 
 public class DeptDao {
-	public List<DeptVo> selectListDept() {
+	public List<DeptVo> selectListDept(Connection conn) {
 		List<DeptVo> list = null;
-		Connection conn = null;
+		conn = null;
 		Statement stmt = null;
 		PreparedStatement pstmt = null;
 		try {
@@ -73,9 +76,9 @@ public class DeptDao {
 //System.out.println(list);
 		return list;
 	}
-	public List<DeptVo> selectListDept(String searchword) {
+	public List<DeptVo> selectListDept(Connection conn,String searchword) {
 		List<DeptVo> list = null;
-		Connection conn = null;
+		 conn = null;
 	
 		PreparedStatement pstmt = null;
 		String sql = "select * from tb_department where department_name like ? or category like ?";
@@ -129,21 +132,144 @@ public class DeptDao {
 //System.out.println(list);
 		return list;
 	}
+	public List<DeptVo> selectListDept(Connection conn,int currentPage, int pageSize, int totalCnt,String searchword) {
+		List<DeptVo> list = null;
+		 conn = null;
+	
+		PreparedStatement pstmt = null;
+		String sql =" select * from "
+				+ " (\r\n"
+				+ " select tb1.*, rownum rn from"
+				+ "    (select * from tb_department"
+				+ " 			where department_name like ? or category like ?"
+				+ " 			order by department_name asc) tb1"
+				+ " ) tb2"
+				+ " where rn between ? and ?";
+		ResultSet rs = null;
+		int startRownum = 0;
+		int endRownum = 0;
+		System.out.println("총글개수:"+totalCnt);
+		startRownum = (currentPage-1)*pageSize +1;
+		endRownum = ((currentPage*pageSize) > totalCnt) ? totalCnt: (currentPage*pageSize);
+		try {
+			
+			pstmt = conn.prepareStatement(sql);
+			searchword = "%"+searchword+"%";
+			pstmt.setString(1, searchword);
+			pstmt.setString(2, searchword);
+			pstmt.setInt(3, startRownum);
+			pstmt.setInt(4, endRownum);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				list = new ArrayList<DeptVo>();
+			
+			do {
+				DeptVo vo = new DeptVo();
+				vo.setDepartmentName(rs.getString("department_Name"));
+				vo.setDepartmentNo(rs.getString("department_No"));
+				vo.setCategory(rs.getString("category"));
+				vo.setOpenYn(rs.getString("open_Yn"));
+				vo.setCapacity(rs.getString("capacity"));
 
-	public DeptVo selectOneDept(String deptNo) {
+				list.add(vo);
+
+			}while (rs.next() == true);
+			
+			}
+		} catch (SQLException e) {
+			// 2. dbms에 연결 실패
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+//		if(stmt!=null)  {stmt.close();}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+//System.out.println(list);
+		return list;
+	}
+	public List<DeptVo> selectListDept(Connection conn,int currentPage, int pageSize, int totalCnt) {
+		List<DeptVo> list = null;
+		 conn = null;
+	
+		PreparedStatement pstmt = null;
+		String sql =" select * from "
+				+ " (\r\n"
+				+ " select tb1.*, rownum rn from"
+				+ "    (select * from tb_department"
+				+ " 			order by department_name asc) tb1"
+				+ " ) tb2"
+				+ " where rn between ? and ?";
+		ResultSet rs = null;
+		int startRownum = 0;
+		int endRownum = 0;
+		System.out.println("총글개수:"+totalCnt);
+		startRownum = (currentPage-1)*pageSize +1;
+		endRownum = ((currentPage*pageSize) > totalCnt) ? totalCnt: (currentPage*pageSize);
+		try {
+			conn = getConnection();
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, startRownum);
+			pstmt.setInt(2, endRownum);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				list = new ArrayList<DeptVo>();
+			
+			do {
+				DeptVo vo = new DeptVo();
+				vo.setDepartmentName(rs.getString("department_Name"));
+				vo.setDepartmentNo(rs.getString("department_No"));
+				vo.setCategory(rs.getString("category"));
+				vo.setOpenYn(rs.getString("open_Yn"));
+				vo.setCapacity(rs.getString("capacity"));
+
+				list.add(vo);
+
+			}while (rs.next() == true);
+			
+			}
+		} catch (SQLException e) {
+			// 2. dbms에 연결 실패
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+//		if(stmt!=null)  {stmt.close();}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+//System.out.println(list);
+		return list;
+	}
+
+	public DeptVo selectOneDept(Connection conn,String deptNo) {
 		DeptVo result = null;
 		System.out.println("dao selectOneStudent() arg:" + deptNo);
 		String query = "select * from tb_department where department_no = "+"'"+deptNo+"'";
-		Connection conn = null;
+	conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 
 		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			conn = DriverManager.getConnection("jdbc:oracle:thin:@127.0.0.1:1521:xe", "kh", "kh");
-			if (conn == null) {
-				System.out.println("연결실패");
-			}
+		
 			pstmt = conn.prepareStatement(query);
 			rset = pstmt.executeQuery();
 			if (rset.next()) {
@@ -171,5 +297,57 @@ public class DeptDao {
 				e.printStackTrace();
 			}
 		}	return result;
+	}
+	public int getSearchTotalCount(Connection conn, String searchWord) {// 검색용 total Count
+		int result = 0;// 총글개수
+		String queryTotalCnt= "select count(*) cnt from tb_department"
+			+"	where department_name like ? or category like ?"
+				+ " 			order by department_name asc";
+		searchWord = "%"+searchWord+"%";
+
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = getConnection();
+			pstmt = conn.prepareStatement(queryTotalCnt);
+			pstmt.setString(1, searchWord);
+			pstmt.setString(2, searchWord);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				//오류 함수는 컬럼명이 될수 없음 -  totalCnt = rs.getInt("count(*)");
+				result = rs.getInt("cnt");
+				//totalCnt = rs.getInt(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(rs);
+			close(pstmt);
+		}
+		System.out.println("검색총글개수:"+result);
+		return result;
+	}
+	public int getTotalCount(Connection conn) {
+		int result = 0;// 총글개수
+		String queryTotalCnt= "select count(*) cnt from tb_department";  
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = conn.prepareStatement(queryTotalCnt);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				//오류 함수는 컬럼명이 될수 없음 -  totalCnt = rs.getInt("count(*)");
+				result = rs.getInt("cnt");
+				//totalCnt = rs.getInt(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(rs);
+			close(pstmt);
+		}
+		System.out.println("총글개수:"+result);
+		return result;
 	}
 }

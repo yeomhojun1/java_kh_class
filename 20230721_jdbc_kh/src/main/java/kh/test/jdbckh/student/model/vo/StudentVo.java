@@ -17,10 +17,14 @@ public class StudentVo {
 	private String studentName;
 	private String studentSsn;
 	private String studentAddress;
-	private Date entranceDate;
+	private String entranceDate;
+	//view에서 입력받은 데이터가 있는경우 String
 	private String absenceYn;
 	private String coachProfessorNo;
 	private String departmentName;
+	public StudentVo() {
+		
+	}
 	@Override
 	public String toString() {
 		return "StudentVo [studentNo=" + studentNo + ", departmentNo=" + departmentNo + ", studentName=" + studentName
@@ -58,10 +62,10 @@ public class StudentVo {
 	public void setStudentAddress(String studentAddress) {
 		this.studentAddress = studentAddress;
 	}
-	public Date getEntranceDate() {
+	public String getEntranceDate() {
 		return entranceDate;
 	}
-	public void setEntranceDate(Date entranceDate) {
+	public void setEntranceDate(String entranceDate) {
 		this.entranceDate = entranceDate;
 	}
 	public String getAbsenceYn() {

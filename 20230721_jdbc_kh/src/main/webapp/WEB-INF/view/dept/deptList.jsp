@@ -65,12 +65,62 @@
 
 			</tr>
 			<%
-			}
+			}//for
 			%>
 		</table>
 		<%
 		}
 		%>
+		<div>
+		<% 
+		int startPageNum = (Integer) request.getAttribute("startPageNum");
+		int endPageNum = (Integer) request.getAttribute("endPageNum");
+		int currentPage = (Integer) request.getAttribute("currentPage");
+		int totalPageNum = (Integer) request.getAttribute("totalPageNum");
+		if(startPageNum != 1 && searchword != null){
+		%>	
+		<a href="<%=request.getContextPath()%>/dept/list/pageNo=<%=startPageNum-1%>&searchWord=<%=searchword%>"><span>이전</span></a>
+		,
+		<%
+		} else if (startPageNum !=1 && searchword==null){
+		%>
+		<a
+			href="<%=request.getContextPath()%>/dept/list?pageNo=<%=startPageNum - 1%>"><span>이전</span></a>
+		,
+		<%
+		}
+		for (int i = startPageNum; i<=endPageNum;i++) {
+			if(searchword != null){
+		
+		%>
+		<a
+			href="<%=request.getContextPath()%>/dept/list?pageNo=<%=i%>&searchWord=<%=searchword%>"><span><%=i%></span></a>
+		,
+		<%
+			}else{
+				%>
+		<a href="<%=request.getContextPath()%>/dept/list?pageNo=<%=i%>"><span><%=i%></span></a>
+		,
+		<%
+			}
+		}
+		if(endPageNum < totalPageNum && searchword != null){
+			%>
+				<a
+			href="<%=request.getContextPath()%>/student/list?pageNo=<%=endPageNum + 1%>&searchWord=<%=searchword%>"><span>다음</span></a>
+		,
+		<%
+		} else if (endPageNum < totalPageNum && searchword == null) {
+			%>	
+		<a
+			href="<%=request.getContextPath()%>/student/list?pageNo=<%=endPageNum + 1%>"><span>다음</span></a>
+		,
+		<%
+		}
+		%>
+		
+		
+		</div>
 	
 	
 </body>

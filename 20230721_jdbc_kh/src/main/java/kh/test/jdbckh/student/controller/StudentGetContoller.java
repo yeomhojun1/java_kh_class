@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import kh.test.jdbckh.student.model.dao.StudentDao;
+import kh.test.jdbckh.student.model.service.StudentService;
 import kh.test.jdbckh.student.model.vo.StudentVo;
 
 /**
@@ -35,7 +36,7 @@ public class StudentGetContoller extends HttpServlet {
 		String studentNo = request.getParameter("sno");
 		System.out.println(studentNo);
 		//2. 전달받은 데이터를 활용해 DB학생 상세정보 가져오기
-		StudentDao dao= new StudentDao();
+		StudentService dao= new StudentService();
 		StudentVo vo = dao.selectOneStudent(studentNo);
 	request.setAttribute("sno", vo);
 		request.getRequestDispatcher("/WEB-INF/view/student/studentGet.jsp").forward(request, response);

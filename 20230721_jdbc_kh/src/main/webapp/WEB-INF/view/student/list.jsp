@@ -6,56 +6,50 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>학생 리스트</title>
 </head>
 <body>
-
 	<h2>학생 리스트</h2>
-	<DIV>
+	<div><a href="<%=request.getContextPath()%>/student/insert">학생등록</a></form>
+	
+	
+	
+	</div>
+	<div>
 		<form action="<%=request.getContextPath()%>/student/list" method="get">
-			<input type="search" name="searchword"> 
-			<input type="submit" name="찾기">
+			<input type="search" name="searchWord"> 
+			<input type="submit" value="찾기">
 		</form>
-	</DIV>
+	</div>
+
 	<%
-	//jsp tag - java문법
-	String a = (String) request.getAttribute("aaa");
-	String b = (String) request.getAttribute("bbb");
-	int c = (Integer) request.getAttribute("ccc");
-	List<StudentVo> volist = (List<StudentVo>) request.getAttribute("studentlist");
-	String searchword = (String) request.getAttribute("searchword");
-	String pageNo = (String) request.getAttribute("pageNo");
-	if (searchword != null) {
+	// JSP Tag - java문법
+	List<StudentVo> volist = (List<StudentVo>) request.getAttribute("studentList");
+	String searchWord = (String) request.getAttribute("searchWord");
+	if (searchWord != null) {
 	%>
-	<h3>
-		<%=searchword%>
+	<h3><%=searchWord%>
 		검색결과
 	</h3>
-	<h3>
+	<h5>
 		<a href="<%=request.getContextPath()%>/student/list">전체보기</a>
-	</h3>
+	</h5>
 	<%
 	}
-	//if(volist.size()==0 || volist ==null){이거는 오류남
-	if(volist ==null || volist.size()==0){
-	//if(volist == null){
-	//if (volist.size() ==0 ) {
+	if (volist == null || volist.size() == 0) {
+	//if(volist == null) {
+	//if (volist.size() == 0) {
 	%>
-	<h2>결과물이 없습니다</h3>
-	
+	<h2>결과물이 없습니다.</h2>
 	<%
 	} else {
 	%>
-
 	<table border="1">
 		<tr>
 			<td>학번</td>
 			<td>이름</td>
-			<td>주민번호</td>
+			<td>입학일</td>
 			<td>주소</td>
-			<td>입학년도</td>
-			<td>학과번호</td>
-
 		</tr>
 		<%
 		for (int i = 0; i < volist.size(); i++) {
@@ -64,35 +58,73 @@
 		<tr>
 			<td><a
 				href="<%=request.getContextPath()%>/student/get?sno=<%=vo.getStudentNo()%>">
-					<%=vo.getStudentNo()%></a></td>
+					<%=vo.getStudentNo()%>
+			</a></td>
 			<td><a
-				href="<%=request.getContextPath()%>/student/get2?sname=<%=vo.getStudentName()%>">
-					<%=vo.getStudentName()%></a></td>
-			<td><%=vo.getStudentSsn()%></td>
-			<td><%=vo.getStudentAddress()%></td>
+				href="<%=request.getContextPath()%>/student/get?sno=<%=vo.getStudentNo()%>">
+					<%=vo.getStudentName()%>
+			</a></td>
 			<td><%=vo.getEntranceDate()%></td>
-			<td><%=vo.getDepartmentNo()%></td>
-
+			<td><%=vo.getStudentAddress()%></td>
 		</tr>
+
 		<%
-		}
+		} // for
 		%>
 	</table>
 	<div>
-	<%
-		for(int i=1;i<11;i++){
-			
-		
-	%>
-	<a name="pageNo" href="<%=request.getContextPath()%>/student/list?pageNo=<%=i%>"><span><%=i%></span></a>
-	
-	,
-	<%
-	} //for
-	%>
+		<%
+		int startPageNum = (Integer) request.getAttribute("startPageNum");
+		int endPageNum = (Integer) request.getAttribute("endPageNum");
+		int currentPage = (Integer) request.getAttribute("currentPage");
+		int totalPageNum = (Integer) request.getAttribute("totalPageNum");
+		if (startPageNum != 1 && searchWord != null) {
+		%>
+		<a
+			href="<%=request.getContextPath()%>/student/list?pageNo=<%=startPageNum - 1%>&searchWord=<%=searchWord%>"><span>이전</span></a>
+		,
+		<%
+		} else if (startPageNum != 1 && searchWord == null) {
+		%>
+		<a
+			href="<%=request.getContextPath()%>/student/list?pageNo=<%=startPageNum - 1%>"><span>이전</span></a>
+		,
+		<%
+		}
+
+		for (int i = startPageNum; i <= endPageNum; i++) {
+		if (searchWord != null) {
+			//			if(currentPage == i){	}
+		%>
+		<a
+			href="<%=request.getContextPath()%>/student/list?pageNo=<%=i%>&searchWord=<%=searchWord%>"><span><%=i%></span></a>
+		,
+		<%
+		} else {
+		%>
+		<a href="<%=request.getContextPath()%>/student/list?pageNo=<%=i%>"><span><%=i%></span></a>
+		,
+		<%
+		} // else
+		} // for
+		if (endPageNum < totalPageNum && searchWord != null) {
+		%>
+		<a
+			href="<%=request.getContextPath()%>/student/list?pageNo=<%=endPageNum + 1%>&searchWord=<%=searchWord%>"><span>다음</span></a>
+		,
+		<%
+		} else if (endPageNum < totalPageNum && searchWord == null) {
+		%>
+		<a
+			href="<%=request.getContextPath()%>/student/list?pageNo=<%=endPageNum + 1%>"><span>다음</span></a>
+		,
+		<%
+		}
+		%>
 	</div>
 	<%
-	}//else
+	} //else
 	%>
+
 </body>
 </html>

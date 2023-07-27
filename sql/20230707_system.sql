@@ -6,6 +6,8 @@ drop user c##scott;
 --21g xe 버젼 , dba 추가 "_ORACLE_SCRIPT"=true; 셋 해줘야함
 alter session set "_ORACLE_SCRIPT"=true;
 create user kh identified by kh;
+create user khl identified by khl;
+create user yhj identified by yhj;
 create user scott identified by tiger;
 --DCL
 --create session, create table처럼 각각의 권한명을 모두 나열하여 적기 힘듬..
@@ -18,7 +20,7 @@ revoke connect, resource from kh;
 grant connect, resource to scott kh;
 --21g xe 버젼 , dba 추가
 grant connect, resource, dba to scott, kh;
-
+grant connect, resource, dba to yhj;
 select *
 from emp
 where dept = 10 or deptno = 20

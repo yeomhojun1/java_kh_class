@@ -8,7 +8,7 @@ public class BoardVo {
 //	MID         NOT NULL VARCHAR2(20)   
 //	BREF        NOT NULL NUMBER         
 //	BRE_LEVEL   NOT NULL NUMBER         
-//	BRE_STEP    NOT NULL NUMBER      
+//	BRE_STEP    NOT NULL NUMBER
 	private int bno;
 	private String btitle;
 	private String bcontent;
@@ -17,12 +17,49 @@ public class BoardVo {
 	private int bref;
 	private int breLevel;
 	private int breStep;
-	public BoardVo(){
-		
+
+//	public BoardDto() {
+//	}
+	// selectOne dao --> controll --> view
+	public BoardVo(int bno, String btitle, String bcontent, String bwriteDate, String mid, int bref, int breLevel,
+			int breStep) {
+		this.bno = bno;
+		this.btitle = btitle;
+		this.bcontent = bcontent;
+		this.bwriteDate = bwriteDate;
+		this.mid = mid;
+		this.bref = bref;
+		this.breLevel = breLevel;
+		this.breStep = breStep;
 	}
+	// selectList(content없음) dao --> controll --> view
+	public BoardVo(int bno, String btitle, String bwriteDate, String mid, int bref, int breLevel, int breStep) {
+		this.bno = bno;
+		this.btitle = btitle;
+		// content 없음
+		this.bwriteDate = bwriteDate;
+		this.mid = mid;
+		this.bref = bref;
+		this.breLevel = breLevel;
+		this.breStep = breStep;
+	}
+	// 원본글 등록 view --> controller --> dao
+	public BoardVo(String btitle, String bcontent, String mid) {
+		this.btitle = btitle;
+		this.bcontent = bcontent;
+		this.mid = mid;
+	}
+	// 답글 등록 view --> controller --> dao
+	public BoardVo(int bno, String btitle, String bcontent, String mid) {
+		this.bno = bno;  // bno는 답글 달려는 글번호
+		this.btitle = btitle;
+		this.bcontent = bcontent;
+		this.mid = mid;
+	}
+
 	@Override
 	public String toString() {
-		return "BoardVo [bno=" + bno + ", btitle=" + btitle + ", bcontent=" + bcontent + ", bwriteDate=" + bwriteDate
+		return "BoardDto [bno=" + bno + ", btitle=" + btitle + ", bcontent=" + bcontent + ", bwriteDate=" + bwriteDate
 				+ ", mid=" + mid + ", bref=" + bref + ", breLevel=" + breLevel + ", breStep=" + breStep + "]";
 	}
 	public int getBno() {
@@ -73,5 +110,5 @@ public class BoardVo {
 	public void setBreStep(int breStep) {
 		this.breStep = breStep;
 	}
-
+	
 }

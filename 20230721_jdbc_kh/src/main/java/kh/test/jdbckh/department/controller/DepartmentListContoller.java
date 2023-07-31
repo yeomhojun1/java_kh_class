@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import kh.test.jdbckh.department.model.dao.DeptDao;
-import kh.test.jdbckh.department.model.service.DeptService;
 import kh.test.jdbckh.department.model.vo.DeptVo;
+import kh.test.jdbckh.department.service.DepartmentService;
 
 /**
  * Servlet implementation class DepartmentListContoller
@@ -48,7 +48,7 @@ public class DepartmentListContoller extends HttpServlet {
 		
 		
 		
-	DeptService service = new DeptService();
+	DepartmentService service = new DepartmentService();
 		if (searchword != null) {
 			map = service.selectListDept(currentPage, pageSize, searchword);
 		} else {

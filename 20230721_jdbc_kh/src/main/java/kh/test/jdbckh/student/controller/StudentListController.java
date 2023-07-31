@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import kh.test.jdbckh.student.model.service.StudentService;
 import kh.test.jdbckh.student.model.vo.StudentVo;
+import kh.test.jdbckh.student.service.StudentService;
 
 /**
  * Servlet implementation class StudentListController

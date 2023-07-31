@@ -1,5 +1,10 @@
 package kh.test.jdbckh.common.jdbc;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -14,14 +19,24 @@ public class JdbcTemplate {
 	public static Connection getConnection() {
 		
 		Properties prop =  new Properties();
+		String currentPath = JdbcTemplate.class.getResource("./").getPath();
+		System.out.println("currentPath = "+currentPath);
+		
 		try {
+			prop.load(new BufferedReader( new FileReader(currentPath+"driver.properties")));
 			// 1. driver 있다면 로딩함. // 없다면 ClassNotFoundException 오류 발생
-			Class.forName("oracle.jdbc.driver.OracleDriver");
+			Class.forName("jdbc.driver");
 			// 2. Connection 객체 생성 // dbms와 연결
-			conn = DriverManager.getConnection("jdbc:oracle:thin:@127.0.0.1:1521:xe","yhj","yhj");
+			conn = DriverManager.getConnection(prop.getProperty("jdbc.url"),prop.getProperty("jdbc.username"),prop.getProperty("jdbc.password"));
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		if(conn!=null) {

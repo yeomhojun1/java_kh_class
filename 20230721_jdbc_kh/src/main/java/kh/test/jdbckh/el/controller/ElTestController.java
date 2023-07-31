@@ -25,6 +25,8 @@ public class ElTestController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		
 		request.setAttribute("a1", "aaa");
 		request.setAttribute("volist", new BoardService().selectList());
 		request.setAttribute("vo", new StudentService().selectOneStudent("A213046"));

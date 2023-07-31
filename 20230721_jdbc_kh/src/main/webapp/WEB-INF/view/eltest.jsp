@@ -5,13 +5,22 @@
     <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
      <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
      <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
+     <% String ctxtPath = request.getContextPath(); %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>EL -</title>
+<link href="<%=request.getContextPath()%>/resources/css/reset.css" rel="stylesheet">
+<script src="<%=request.getContextPath()%>/resources/js/jquery-3.7.0.js"></script>
+
 </head>
 <body>
+
+<img alt="jpg 테스트" src="resources/images/다현.jpg">
+<img alt="jpg 테스트" src="<%=request.getContextPath()%>/resources/images/pngwing.com.png">
+
+
 
 <h2> EL - EXPRESSION LANGUAGE <BR>단점 : JAVA FOR/IF/변수 사용 불가 <BR>보안 JSTL의 FOREACH/IF/SET변수를 사용 </h2>
 

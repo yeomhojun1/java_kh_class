@@ -5,12 +5,15 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Properties;
 
 public class JdbcTemplate {
 	private static Connection conn = null;
 	
 	// Singleton패턴  Connection 객체가 많이 생성됨을 방지
 	public static Connection getConnection() {
+		
+		Properties prop =  new Properties();
 		try {
 			// 1. driver 있다면 로딩함. // 없다면 ClassNotFoundException 오류 발생
 			Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -28,6 +31,13 @@ public class JdbcTemplate {
 		}
 		return conn;
 	}
+	
+	
+	
+	
+	
+	
+	
 	public static Connection getConnectionKhl() {
 		try {
 			// 1. driver 있다면 로딩함. // 없다면 ClassNotFoundException 오류 발생

@@ -37,12 +37,16 @@ public class LoginDoServlet extends HttpServlet {
 		Member vo = new Member(mid,mpwd);
 		String sendUrl= request.getContextPath();
 		String result = new MemberService().login(mid);
-		if(mpwd.equals(result)) {
-			System.out.println("로그인 성공");
+		if(mpwd == null) {
+			//
+		}else if(mpwd.equals(result)) {
+			request.setAttribute("loginId", mid);
+			request.getSession().setAttribute("successFailMsg", "로그인성공");
+			request.getSession().setAttribute("SsLoginId", mid);
 			sendUrl += "/board/list";
 		}else {
-		System.out.println("로그인 실패!");
-		sendUrl += "/board/error";
+			request.getSession().setAttribute("successFailMsg", "로그인 실패하였습니다.\n 아이디와 패스워드를 다시 확인하고 로그인 시도해주세요.");
+			sendUrl += "/board/list";
 		}
 	response.sendRedirect(sendUrl);
 	

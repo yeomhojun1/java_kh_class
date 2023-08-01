@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import kh.test.jdbckh.common.jdbc.JdbcTemplate;
 import kh.test.jdbckh.professor.model.vo.ProfVo;
 
 public class ProfDao {
@@ -43,7 +44,7 @@ public class ProfDao {
 			e.printStackTrace();
 		}
 			try {
-				if(rset!= null)rset.close();
+				JdbcTemplate.close(rset);
 				if(pstmt!= null)pstmt.close();
 				if(conn!= null)conn.close();
 			} catch (SQLException e) {
@@ -98,7 +99,6 @@ public class ProfDao {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
 		return list;
 	}
 	public ProfVo selectOneProf(String professorNo) {
@@ -106,11 +106,12 @@ public class ProfDao {
 		Connection conn = null;
 		ResultSet rset = null;
 		PreparedStatement pstmt = null;
-		String query = "select * from tb_professor where professor_no = "+"'"+professorNo+"'"; //이번엔 하나를 뽑는거라서 테이블에 WHERE조건이 붙음,꼭 작은 따옴표신경써주기
+		String query = "select * from tb_professor where professor_no = ?"; //이번엔 하나를 뽑는거라서 테이블에 WHERE조건이 붙음,꼭 작은 따옴표신경써주기
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");//드라이버 확인
 			conn = DriverManager.getConnection("jdbc:oracle:thin:@127.0.0.1:1521:xe","kh","kh");//SQL디벨로퍼에서의 주소,아이디, 비번을 입력해줘서 서버에 들어감
 			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, professorNo);
 			rset = pstmt.executeQuery();
 			if(rset.next()) {
 				result = new ProfVo();
@@ -119,16 +120,8 @@ public class ProfDao {
 				result.setProfessorName(rset.getString("Professor_Name"));
 				result.setProfessorSsn(rset.getString("Professor_Ssn"));
 				result.setProfessorAddress(rset.getString("Professor_Address"));
-
-				
-				
 			}
-			
-			
-			
-			
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -145,13 +138,5 @@ public class ProfDao {
 				e.printStackTrace();
 			}
 		}	return result;
-		
-		
-		
-		
-		
-		
-		
-		
 	}
 }

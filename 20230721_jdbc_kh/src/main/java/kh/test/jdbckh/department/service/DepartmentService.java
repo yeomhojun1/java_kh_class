@@ -38,10 +38,10 @@ public class DepartmentService {
 			close(conn);
 			return result;
 		}
-		public int getTotalCount() {
-			int result= 0;
-			Connection conn = JdbcTemplate.getConnection();
-			result = dao.getTotalCount(conn);
+		public int getTotalCount(String searchWord) {
+			int result = 0;
+			Connection conn = getConnection();
+			result = dao.getTotalCount(conn, searchWord);
 			close(conn);
 			return result;
 		}
@@ -59,10 +59,11 @@ public class DepartmentService {
 			close(conn);
 			return result;
 		}
-		public List<DeptVo> selectListDepartment( int currentPage, int pageSize, int totalCnt , String searchWord) {  // 페이징처리+검색
+		public List<DeptVo> selectListDepartment( int currentPage, int pageSize, String searchWord) {  // 페이징처리+검색
 			List<DeptVo> result= null;
 			Connection conn = JdbcTemplate.getConnection();
-			result = dao.selectListDept(conn, currentPage,pageSize,totalCnt,searchWord);
+			int totalCount = getTotalCount(searchWord);
+			result = dao.selectListDept(conn, currentPage,pageSize,totalCount,searchWord);
 			close(conn);
 			return result;
 		}

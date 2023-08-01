@@ -36,16 +36,8 @@ package kh.test.jdbckh.department.model.service;
 			close(conn);
 			return result;
 		}
-		public Map<String, Object> selectListDept(int currentPage, int pageSize ) {  // 페이징처리
-			Connection conn = getConnection();
-			int totalCnt = dao.getTotalCount(conn);
-			List<DeptVo> result =  dao.selectListDept(conn,currentPage, pageSize, totalCnt);
-			close(conn);
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("totalCnt", totalCnt);
-			map.put("DeptList", result);
-			return map;
-		}
+	
+		
 		// 페이징처리 + 검색
 		public Map<String, Object> selectListDept(int currentPage, int pageSize, String searchWord ) {  // 페이징처리 + 검색
 			Connection conn = getConnection();
@@ -58,9 +50,9 @@ package kh.test.jdbckh.department.model.service;
 			map.put("DeptList", result);
 			return map;
 		}
-		public int getTotalCount() {
+		public int getTotalCount(String searchWord) {
 			Connection conn = getConnection();
-			int result = dao.getTotalCount(conn);
+			int result = dao.getTotalCount(conn,searchWord);
 			close(conn);
 			return result;
 		}

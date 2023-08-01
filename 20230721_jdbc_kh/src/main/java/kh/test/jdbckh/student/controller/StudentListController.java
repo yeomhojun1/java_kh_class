@@ -53,12 +53,12 @@ public class StudentListController extends HttpServlet {
 		if(searchWord != null) {
 			// 검색
 			//result = service.selectListStudent(searchWord);
-			map = service.selectListStudent(currentPage, pageSize, searchWord);
-		} else {
+			map.put("", map) ;
+			} else {
 			// 전체
 //			result = dao.selectListStudent();
 			// 페이징
-			map = service.selectListStudent(currentPage, pageSize);
+			map.put("", map) ;
 		}
 		// 3. DB로부터 전달받은 데이터를 JSP에 전달함.
 		request.setAttribute("studentList", map.get("studentList"));

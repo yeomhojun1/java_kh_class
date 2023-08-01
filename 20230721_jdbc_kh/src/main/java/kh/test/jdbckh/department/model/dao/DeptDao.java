@@ -263,7 +263,7 @@ public class DeptDao {
 	public DeptVo selectOneDept(Connection conn,String deptNo) {
 		DeptVo result = null;
 		System.out.println("dao selectOneStudent() arg:" + deptNo);
-		String query = "select * from tb_department where department_no = "+"'"+deptNo+"'";
+		String query = "select * from tb_department where department_no = ?";
 	conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -271,6 +271,7 @@ public class DeptDao {
 		try {
 		
 			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, deptNo);
 			rset = pstmt.executeQuery();
 			if (rset.next()) {
 				result = new DeptVo();
@@ -328,26 +329,33 @@ public class DeptDao {
 		System.out.println("검색총글개수:"+result);
 		return result;
 	}
-	public int getTotalCount(Connection conn) {
-		int result = 0;// 총글개수
-		String queryTotalCnt= "select count(*) cnt from tb_department";  
+	public int getTotalCount(Connection conn,String searchWord) {
+		System.out.println("[Dept Dao getTotalCount] searchWord:"+searchWord);
+
+		int result = 0;
+		String query = "select count(*) cnt from tb_student ";
+		if(searchWord != null) {  // 검색(있다면 where처리)
+			query += " where DEPARTMENT_NAME like ? or DEPARTMENT_NAME like ? or CATEGORY like ? ";
+			searchWord = "%"+searchWord+"%";
+		}
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			pstmt = conn.prepareStatement(queryTotalCnt);
-			rs = pstmt.executeQuery();
-			if(rs.next()) {
-				//오류 함수는 컬럼명이 될수 없음 -  totalCnt = rs.getInt("count(*)");
-				result = rs.getInt("cnt");
-				//totalCnt = rs.getInt(1);
+			pstmt = conn.prepareStatement(query);
+			if(searchWord != null) { // 검색(있다면 where처리)
+				pstmt.setString(1, searchWord);
+				pstmt.setString(2, searchWord);
+				pstmt.setString(3, searchWord);
 			}
-		} catch (Exception e) {
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				result = rs.getInt("cnt");
+			}
+		}catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			close(rs);
-			close(pstmt);
 		}
-		System.out.println("총글개수:"+result);
+		System.out.println("[Dept Dao getTotalCount] return:"+result);
 		return result;
 	}
 }

@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import kh.test.jdbckh.department.model.dao.DeptDao;
-import kh.test.jdbckh.department.model.service.DeptService;
 import kh.test.jdbckh.department.model.vo.DeptVo;
+import kh.test.jdbckh.department.service.DepartmentService;
 import kh.test.jdbckh.student.model.dao.StudentDao;
 import kh.test.jdbckh.student.model.vo.StudentVo;
 
@@ -35,7 +35,7 @@ public class DepartmentGetController extends HttpServlet {
 		String deptNo = request.getParameter("deptno");
 		System.out.println(deptNo);
 		//2. 전달받은 데이터를 활용해 DB학생 상세정보 가져오기
-		Department service= new DeptService();
+		DepartmentService service= new DepartmentService();
 		DeptVo vo = service.selectOneDept(deptNo);
 	request.setAttribute("deptno", vo);
 		request.getRequestDispatcher("/WEB-INF/view/dept/deptGet.jsp").forward(request, response);

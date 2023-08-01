@@ -50,7 +50,7 @@ public class DepartmentListContoller extends HttpServlet {
 		
 	DepartmentService service = new DepartmentService();
 		if (searchword != null) {
-			map = service.selectListDept(currentPage, pageSize, searchword);
+			map = service.selectListDepartment(currentPage, pageSize, searchword);
 		} else {
 			map = service.selectListDept(currentPage, pageSize);
 		}

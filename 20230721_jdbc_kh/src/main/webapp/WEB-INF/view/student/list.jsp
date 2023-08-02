@@ -16,7 +16,8 @@
 	</div>
 	<div>
 		<form action="<%=request.getContextPath()%>/student/list" method="get">
-			<input type="search" name="searchWord"> <input type="submit"
+			<input type="search" name="searchWord"> 
+			<input type="submit"
 				value="찾기">
 		</form>
 	</div>

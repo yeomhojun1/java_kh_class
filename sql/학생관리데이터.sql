@@ -104,3 +104,10 @@ SELECT * FROM ST_WEEK ;
 DESC USER_CONSTRAINTS;
 desc ACA_STUDENT;
 commit;
+SELECT * FROM ACA_STUDENT where student_name like '%?%' or important like '%꺼%';
+select (select student_name from aca_student a where mid2='SA001010') student_name,to_date('monthNo','yyyy') monthNo,Tc_id,St_id,Expect,Study,St_Comment,Acheive,to_number('Week_Score','999') Week_Score
+from st_week;
+select extract(m from monthNo) from st_week;
+
+
+

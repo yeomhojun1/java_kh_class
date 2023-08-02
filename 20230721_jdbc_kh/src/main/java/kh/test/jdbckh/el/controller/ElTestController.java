@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import kh.test.jdbckh.board.model.service.BoardService;
-import kh.test.jdbckh.student.model.service.StudentService;
+import kh.test.jdbckh.student.service.StudentService;
 
 /**
  * Servlet implementation class ElTestController

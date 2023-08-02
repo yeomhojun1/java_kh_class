@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import kh.test.jdbckh.department.model.dao.DeptDao;
-import kh.test.jdbckh.department.model.service.DeptService;
 import kh.test.jdbckh.department.model.vo.DeptVo;
 import kh.test.jdbckh.department.service.DepartmentService;
 import kh.test.jdbckh.student.model.dao.StudentDao;

@@ -18,7 +18,11 @@
 				</tr>
 				<tr>
 					<td>departmentNo</td>
-					<td><input type="text" name="departmentNo"></td>
+					<td><select name="departmentNo">
+					<option value=""></select>
+				
+				
+				
 				</tr>
 				<tr>
 					<td>studentName</td>

@@ -18,24 +18,15 @@ import kh.test.jdbckh.student.model.vo.StudentVo;
 @WebServlet("/student/insert.do")
 public class StudentInsertDoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	StudentService service = new StudentService();
 
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
+
 	public StudentInsertDoServlet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
@@ -64,12 +55,14 @@ public class StudentInsertDoServlet extends HttpServlet {
 		
 		System.out.println("[insert servlet]"+vo);
 		
-		StudentService service = new StudentService();
 		int result = service.insertStudent(vo);
 		
-//		if(result <1) {
-//				//todo
-//		}
+		if(result <1) {//오류발생
+
+		
+		}else {//등록성공
+			request.getSession().setAttribute("msg", studentName+"학생 등록 되었습니다");
+		}
 		response.sendRedirect(request.getContextPath()+"/student/list");
 		
 	}

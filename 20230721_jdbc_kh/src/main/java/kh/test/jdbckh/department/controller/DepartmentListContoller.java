@@ -49,12 +49,7 @@ public class DepartmentListContoller extends HttpServlet {
 		
 		
 	DepartmentService service = new DepartmentService();
-		if (searchword != null) {
-			map = service.selectListDepartment(currentPage, pageSize, searchword);
-		} else {
-			map = service.selectListDept(currentPage, pageSize);
-		}
-
+	
 		request.setAttribute("deptlist", map.get("DeptList"));
 		int pageBlockSize = 5;
 		int totalCnt = (Integer)map.get("totalCnt");

@@ -16,7 +16,7 @@ import kh.test.jdbckh.department.service.DepartmentService;
 /**
  * Servlet implementation class DepartmentListServlet
  */
-@WebServlet("/dept/list")
+@WebServlet("/dept/list1")
 public class DepartmentListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     

@@ -52,7 +52,6 @@
 		<div>${vo.bno }</div>
 		<div>
 		<c:forEach begin="1" end="${vo.breLevel }">
-		&#8618; 
 		</c:forEach>
 		${vo.btitle }
 		</div>

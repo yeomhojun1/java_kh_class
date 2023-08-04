@@ -12,9 +12,9 @@ import kh.test.jdbckh.common.jdbc.JdbcTemplate;
 import kh.test.jdbckh.professor.model.vo.ProfVo;
 
 public class ProfDao {
-	public List<ProfVo> selectListProf() {
+	public List<ProfVo> selectListProf(Connection conn) {
 		List<ProfVo> list = null;
-		Connection conn = null;
+	 conn = null;
 		ResultSet rset = null;
 		PreparedStatement pstmt = null;
 		try {

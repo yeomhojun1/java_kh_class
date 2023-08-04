@@ -741,3 +741,14 @@ SELECT * FROM SMY;
 SELECT STUDENT_NO, STUDENT_NAME, EXTRACT(YEAR FROM SYSDATE)- (SUBSTR(STUDENT_SSN,1,2)+2000) AGE, '010-'||substr(student_ssn,10,4)||'-'||substr(student_ssn,2,4) PHONE
 FROM SM;
 
+select count(*) from tb_professor;
+select s.department_no sdno, p.coach_professor_no 
+from tb_student s 
+join tb_professor p on (coach_professor_no= professor_no); 
+
+select * from tb_student;
+select * from tb_professor;
+
+
+
+

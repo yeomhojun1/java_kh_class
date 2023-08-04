@@ -38,7 +38,6 @@ public class ProfessorListController extends HttpServlet {
 			list= dao.selectListProf(a);
 			request.setAttribute("searchword", a);
 		}else {
-			list= dao.selectListProf();
 		}
 		request.setAttribute("proflist", list);
 		request.getRequestDispatcher("/WEB-INF/view/prof/proflist.jsp").forward(request, response);

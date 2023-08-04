@@ -23,20 +23,11 @@ public class JdbcTemplate {
 		System.out.println("currentPath = "+currentPath);
 		
 		try {
-			prop.load(new BufferedReader( new FileReader(currentPath+"driver.properties")));
-			// 1. driver 있다면 로딩함. // 없다면 ClassNotFoundException 오류 발생
-			Class.forName("jdbc.driver");
-			// 2. Connection 객체 생성 // dbms와 연결
-			conn = DriverManager.getConnection(prop.getProperty("jdbc.url"),prop.getProperty("jdbc.username"),prop.getProperty("jdbc.password"));
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			conn = DriverManager.getConnection("jdbc:oracle:thin:@127.0.0.1:1521:xe","yhj","yhj");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		if(conn!=null) {

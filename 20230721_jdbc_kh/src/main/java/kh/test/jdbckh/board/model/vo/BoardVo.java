@@ -1,5 +1,7 @@
 package kh.test.jdbckh.board.model.vo;
 
+import java.util.List;
+
 public class BoardVo {
 //	BNO         NOT NULL NUMBER         
 //	BTITLE      NOT NULL VARCHAR2(300)  
@@ -17,7 +19,9 @@ public class BoardVo {
 	private int bref;
 	private int breLevel;
 	private int breStep;
-
+	//1대 n관계일때 작성하는 방법
+	//private List<String>  filepath;
+	private List<AttachFileVo> attachFileList;
 //	public BoardDto() {
 //	}
 	// selectOne dao --> controll --> view
@@ -57,10 +61,12 @@ public class BoardVo {
 		this.mid = mid;
 	}
 
+	
 	@Override
 	public String toString() {
-		return "BoardDto [bno=" + bno + ", btitle=" + btitle + ", bcontent=" + bcontent + ", bwriteDate=" + bwriteDate
-				+ ", mid=" + mid + ", bref=" + bref + ", breLevel=" + breLevel + ", breStep=" + breStep + "]";
+		return "BoardVo [bno=" + bno + ", btitle=" + btitle + ", bcontent=" + bcontent + ", bwriteDate=" + bwriteDate
+				+ ", mid=" + mid + ", bref=" + bref + ", breLevel=" + breLevel + ", breStep=" + breStep
+				+ ", attachFileList=" + attachFileList + "]";
 	}
 	public int getBno() {
 		return bno;
@@ -109,6 +115,12 @@ public class BoardVo {
 	}
 	public void setBreStep(int breStep) {
 		this.breStep = breStep;
+	}
+	public List<AttachFileVo> getAttachFileList() {
+		return attachFileList;
+	}
+	public void setAttachFileList(List<AttachFileVo> attachFileList) {
+		this.attachFileList = attachFileList;
 	}
 	
 }

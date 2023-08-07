@@ -39,13 +39,6 @@ public class StudentDao {
 		}finally {
 			close(conn);
 		}
-		
-		
-		
-		
-		
-		
-		
 		return result;
 	}
 	

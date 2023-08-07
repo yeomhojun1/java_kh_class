@@ -11,6 +11,7 @@
 	grid-template-columns:  auto auto;
 }
 </style>
+ <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
 </head>
 <body>
 <h2>ajax test</h2>
@@ -20,7 +21,23 @@
 <div class="grid-wrap">
 <div>학과이름</div><div>계열</div>
 </div>
+<!-- 
+	<h1>지도 표시하기</h1>
+	<div id="map" style="width: 100%; height: 600px;"></div>
+
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=키값넣기키값넣기키값넣기키값넣기키값넣기키값넣기키값넣기키값넣기"></script>
+ -->
 <script>
+
+
+
+
+
+
+
+
+
+
 $("#btnajax1").click(ajax1ClickHandler);
 $("#btnajax2").click(ajax2ClickHandler);
 function ajaxSuccess(result){
@@ -41,6 +58,11 @@ function ajax1ClickHandler(){
 	});
 	console.log("ajax로 데이터 전달 중-1");
 }
+
+
+
+
+
 function ajax2ClickHandler(){
 	console.log("btnajax2 click");
 	$.ajax({
@@ -53,10 +75,11 @@ function ajax2ClickHandler(){
 function ajaxSuccess2(result){
 	console.log("2 ctrl로부터 전달받은 데이터 :");
 	console.log(result);
-	console.log(result.deptList);
+	<!-- console.log(result.deptList);
 	console.log(result.profList);
 	console.log(result.endPage);
 	console.log(result.startPage);
+	-->
 	if(result){
 		for(var i=0; i<result.deptList.length;i++){
 			var dvo = result.deptList[i];

@@ -110,4 +110,9 @@ from st_week;
 select extract(m from monthNo) from st_week;
 SELECT * FROM ACA_STUDENT where student_name like '%영%';
 
-
+select m.*,
+  decode(mtype,'S', (select  student_name from ACA_STUDENT where mid2='T00001'), 'T', (select  teacher_name from teacher where mid='T00001'), 'A') name
+ from aca_member m 
+ where mid='T00001' and mpwd='TP00001'
+ ;
+ select m.*,  decode(mtype,'S', (select  student_name from ACA_STUDENT where mid2='T00001'), 'T', (select  teacher_name from teacher where mid='T00001'), 'A',(select  aca_name from academy where aca_no='A001')) mname from aca_member m where mid='A001' and mpwd='A001' and mtype='A';

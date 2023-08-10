@@ -751,4 +751,10 @@ select * from tb_professor;
 
 
 
+create SEQUENCE seq_bno
+start with 1
+increment by 1
+maxvalue 1000
+nocycle;
 
+drop sequence seq_bno;

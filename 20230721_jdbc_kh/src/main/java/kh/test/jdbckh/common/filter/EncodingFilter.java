@@ -14,7 +14,6 @@ public class EncodingFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		//한글 깨짐 방지
-		System.out.println("filter 잘들어와?");
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");		
 		response.setContentType("text/html; charset=UTF-8");

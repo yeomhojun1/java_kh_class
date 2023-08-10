@@ -116,3 +116,37 @@ select m.*,
  where mid='T00001' and mpwd='TP00001'
  ;
  select m.*,  decode(mtype,'S', (select  student_name from ACA_STUDENT where mid2='T00001'), 'T', (select  teacher_name from teacher where mid='T00001'), 'A',(select  aca_name from academy where aca_no='A001')) mname from aca_member m where mid='A001' and mpwd='A001' and mtype='A';
+ 
+ select mid,  decode(substr(mtype,1,1),'A','학원','S','학생','T','선생님') AS mtype, 
+decode(mtype,'S', (select  student_name from ACA_STUDENT where mid2='T00001'), 'T', (select  teacher_name from teacher where mid='T00001'), 'A',(select  aca_name from academy where aca_no='T00001')) mname from aca_member m where mid='T00001' and mpwd='TP00001' and mtype='T';
+ 
+select mid,  decode(substr(mtype,1,1),'A','학원','S','학생','T','선생님') AS mtype, 
+decode(mtype
+,'S', (select  student_name from ACA_STUDENT s where s.mid2=m.mid)
+, 'T', (select  teacher_name t from teacher t where t.mid=m.mid)
+, 'A',(select  aca_name from academy a where a.aca_no=m.mid )) mname 
+from aca_member m
+order by mid;
+  
+ SELECT * FROM BBOARD;
+ 
+ SELECT bno,bwriter,btitle FROM bboard;
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

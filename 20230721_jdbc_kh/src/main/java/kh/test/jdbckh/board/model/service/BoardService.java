@@ -1,70 +1,81 @@
 package kh.test.jdbckh.board.model.service;
 
-import static kh.test.jdbckh.common.jdbc.JdbcTemplate.close;
-import static kh.test.jdbckh.common.jdbc.JdbcTemplate.getConnectionKhl;
-import static kh.test.jdbckh.common.jdbc.JdbcTemplate.setAutoCommit;
-import static kh.test.jdbckh.common.jdbc.JdbcTemplate.commit;
-import static kh.test.jdbckh.common.jdbc.JdbcTemplate.rollback;
-
-import java.sql.Connection;
 import java.util.List;
 
+import org.apache.ibatis.session.SqlSession;
+
 import kh.test.jdbckh.board.model.dao.BoardDao;
+import kh.test.jdbckh.board.model.vo.AttachFileVo;
 import kh.test.jdbckh.board.model.vo.BoardVo;
+import kh.test.jdbckh.common.jdbc.MyBatisTemplate;
+import kh.test.jdbckh.member.model.dao.MemberDao;
 
 public class BoardService {
 	private BoardDao dao = new BoardDao();
+	private MemberDao mdao = new MemberDao();
 	
 	public List<BoardVo> selectList(){
 		List<BoardVo> result = null;
-		Connection conn = getConnectionKhl();
-		result = dao.selectList(conn);
-		close(conn);
+		SqlSession session = MyBatisTemplate.getSqlSession(true);
+		//result = dao.selectList(session);
+		session.close();
 		return result;
 	}
 	// 한 행 읽기 - PK로where조건
 	public BoardVo selectOne(int bno){
 		BoardVo result = null;
-		Connection conn = getConnectionKhl();
-		result = dao.selectOne(conn, bno);
-		close(conn);
+		SqlSession session = MyBatisTemplate.getSqlSession(true);
+		result = dao.selectOne(session, bno);
+		if(result != null) {
+			// 첨부파일들 읽어서 result에 넣기
+			List<AttachFileVo> fileList = dao.selectAttachFileList(session, bno);
+			result.setAttachFileList(fileList);
+		}
+		session.close();
 		return result;
 	}
-	// 한 행 삽입 - BoardVo 자료형을 받아와야 함.
-	public int insert(BoardVo dto){
+	// 한 행 삽입 - BoardDto 자료형을 받아와야 함.
+	public int insert(BoardVo dto, List<AttachFileVo> fileList){
 		int result = 0;
-		Connection conn = getConnectionKhl();
-		setAutoCommit(conn, false);
+		SqlSession session = MyBatisTemplate.getSqlSession(false);
+		//setAutoCommit(conn, false);
+		//int nextval = dao.getSeqBoardBnoNexVal(session);
 		if(dto.getBno() == 0) { // 원본글작성
-			result = dao.insert(conn, dto);
+			//result = dao.insert(session, dto, nextval);
+			if(fileList!=null && fileList.size()>0) {
+			//	result = dao.insertAttachFileList(session, fileList, nextval);
+			}
 		}else {   // 답글작성
-			result = dao.update(conn, dto);
+			//result = dao.update(session, dto);
 			if(result > -1) {
-				result = dao.insert(conn, dto);
+				//result = dao.insertReply(session, dto, nextval);
+			}
+			if(fileList!=null && fileList.size()>0) {
+				//result = dao.insertAttachFileList(session, fileList, nextval);
 			}
 		}
 		if(result > 0) {
-			commit(conn);
+			session.commit();
 		} else {
-			rollback(conn);
+			session.rollback();
 		}
-		close(conn);
+		session.close();
 		return result;
 	}
-	// 한 행 수정 - BoardVo 또는 경우에 따라서 특정 컬럼값만 받아오기도 함.
+	// 한 행 수정 - BoardDto 또는 경우에 따라서 특정 컬럼값만 받아오기도 함.
 	public int update(BoardVo dto){
 		int result = 0;
-		Connection conn = getConnectionKhl();
-		result = dao.update(conn, dto);
-		close(conn);
+		SqlSession session = MyBatisTemplate.getSqlSession(true);
+		//result = dao.update(session, dto);
+		session.close();
 		return result;
 	}
 	// 한 행 삭제 - 주로 PK로 where조건
 	public int delete(int bno){
 		int result = 0;
-		Connection conn = getConnectionKhl();
-		result = dao.delete(conn, bno);
-		close(conn);
+		SqlSession session = MyBatisTemplate.getSqlSession(true);
+		//result = dao.delete(session, bno);
+		session.close();
 		return result;
 	}
 	
@@ -72,17 +83,17 @@ public class BoardService {
 	// 페이징 처리 + 검색
 	public int getTotalCount(String searchWord) {
 		int result = 0;
-		Connection conn = getConnectionKhl();
-		result = dao.getTotalCount(conn, searchWord);
-		close(conn);
+		SqlSession session = MyBatisTemplate.getSqlSession(true);
+		//result = dao.getTotalCount(session, searchWord);
+		session.close();
 		return result;
 	}
 	public List<BoardVo> selectList(int currentPage, int pageSize, String searchWord){
 		List<BoardVo> result = null;
-		Connection conn = getConnectionKhl();
-		int totalCount = getTotalCount(searchWord);
-		result = dao.selectList(conn, currentPage, pageSize, totalCount, searchWord);
-		close(conn);
+		SqlSession session = MyBatisTemplate.getSqlSession(true);
+		//int totalCount = dao.getTotalCount(searchWord);
+		//result = dao.selectList(session, currentPage, pageSize, totalCount, searchWord);
+		session.close();
 		return result;
 	}
 }

@@ -161,9 +161,6 @@ public class MemberDao {
 		} finally {
 			close(pstmt);
 		}
-
 		return result;
-		
-		
 	}
 }

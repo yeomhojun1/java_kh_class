@@ -7,84 +7,38 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.ibatis.session.SqlSession;
+
+import kh.test.jdbckh.board.model.vo.AttachFileVo;
 import kh.test.jdbckh.board.model.vo.BoardVo;
 
 
 public class BoardDao {
 	// 모든 행 읽기
-	public List<BoardVo> selectList(Connection conn) {
-		System.out.println("[Board Dao selectList]");
-		List<BoardVo> result = new ArrayList<BoardVo>();
-
-		String subquery = " select BNO, BTITLE, to_char(BWRITE_DATE, 'yyyy-mm-dd hh24:mi:ss') BWRITE_DATE, MID, BREF, BRE_LEVEL, BRE_STEP from board order by bref desc, bre_step asc"; // 정렬순서
-		String query = subquery;
-
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			pstmt = conn.prepareStatement(query);
-			rs = pstmt.executeQuery();
-
-			while (rs.next() == true) {
-				BoardVo dto = new BoardVo(
-						rs.getInt("BNO"),
-						rs.getString("BTITLE"),
-						rs.getString("BWRITE_DATE"),
-						rs.getString("MID"),
-						rs.getInt("BREF"),
-						rs.getInt("BRE_LEVEL"),
-						rs.getInt("BRE_STEP")					
-						);
-				result.add(dto);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			close(rs);
-			close(pstmt);
-		}
-		System.out.println("[Board Dao selectList] return:" + result);
+	public List<AttachFileVo> selectAttachFileList(SqlSession sesson, int bno) {
+		System.out.println("[Board Dao selectAttachFile]");
+		List<AttachFileVo> result = sesson.selectList("boardMapper1.selectAttachFile1", bno);
+		System.out.println("[Board Dao selectAttachFile] return:" + result);
 		return result;
 	}
-
-	// 한 행 읽기 - PK로where조건
-	public BoardVo selectOne(Connection conn, int bno) {
-		System.out.println("[Board Dao selectOne] bno:" + bno);
-		BoardVo result = null;
-		// TODO
+	
+	public BoardVo selectOne(SqlSession sesson, int bno) {
+		System.out.println("[Board Dao selectOne]");
+		BoardVo result = sesson.selectOne("boardMapper1.selectOne1", bno);
 		System.out.println("[Board Dao selectOne] return:" + result);
 		return result;
 	}
-
 	// 한 행 삽입 - BoardVo 자료형을 받아와야 함.
-	public int insert(Connection conn, BoardVo dto) {
-		System.out.println("[Board Dao insert] dto:" + dto);
-		int result = 0;
-		String query = "";
-		if(dto.getBno() == 0) { // 원본글작성
-		query = "insert into BOARD values (SEQ_BOARD_BNO.nextval, ?, ?, default, ?, SEQ_BOARD_BNO.nextval, 0,0)";
-		} else {  //답글
-		query = "insert into BOARD values (SEQ_BOARD_BNO.nextval, ?, ?, default, ?    , (select bref from board where bno=?)    , (select bre_level+1 from board where bno=?)    , (select bre_step+1 from board where bno=?)    )";
-		}
-		PreparedStatement pstmt = null;
-		try {
-			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, dto.getBtitle());
-			pstmt.setString(2, dto.getBcontent());
-			pstmt.setString(3, dto.getMid());
-			if(dto.getBno() != 0) { // 답글
-			pstmt.setInt(4, dto.getBno());
-			pstmt.setInt(5, dto.getBno());
-			pstmt.setInt(6, dto.getBno());
-			}
-			result = pstmt.executeUpdate();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			close(pstmt);
-		}
+	public int insert(SqlSession sesson, BoardVo dto, int nextVal) {
+		System.out.println("[Board Dao insert]");
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("dto", dto);
+		map.put("nextVal", nextVal);
+		int result = sesson.insert("boardMapper1.insert1", map);
 		System.out.println("[Board Dao insert] return:" + result);
 		return result;
 	}

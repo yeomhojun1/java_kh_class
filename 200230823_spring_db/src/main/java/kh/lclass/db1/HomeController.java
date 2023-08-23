@@ -1,4 +1,4 @@
-package kh.lclass.spring1;
+package kh.lclass.db1;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -25,33 +25,15 @@ public class HomeController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		logger.info("Welcome home! The client locale is {}.", locale);
-		logger.trace("trace");
-		logger.debug("debug");
-		logger.warn("warn");
-		logger.error("error");
-		//sysout은 정말정말 급할때
-		
-		
-		
-		
 		
 		Date date = new Date();
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
 		
 		String formattedDate = dateFormat.format(date);
-		String aaa= "aaa";
+		
 		model.addAttribute("serverTime", formattedDate );
-		model.addAttribute("aaaasd", aaa );
 		
 		return "home";
 	}
 	
-	@RequestMapping(value = "/aaa/a1", method = RequestMethod.GET)
-	public String a1() {
-		return "aaa/a1";
-	}
-	@RequestMapping("/aaa/a2")
-	public void a2() {
-
-	}
 }

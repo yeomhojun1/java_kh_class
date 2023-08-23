@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<!-- properties 이용 -->
+	<context:property-placeholder
+		location="classPath:properties/kh.properties" />
+	<!-- DB관련 -->
+	<!-- DBCP -->
+	<bean class="org.apache.commons.dbcp.BasicDataSource"
+		id="dataSource" destroy-method="close">
+		<property name="driverClassName"
+			value="${db.driverClassName}" />
+		<property name="url" value="${db.url}" />
+		<property name="username" value="${db.username}" />
+		<property name="password" value="${db.password}" />
+
+	</bean>
+	<!-- mybatis session -->
+	<bean class="org.mybatis.spring.SqlSessionFactoryBean"
+		id="sqlSessionFactory">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="configLocation"
+			value="classpath:mybatis-config.xml" />
+	</bean>
+	<bean class="org.mybatis.spring.SqlSessionTemplate"
+		id="sqlSession">
+		<constructor-arg ref="sqlSessionFactory" />
+	</bean>
+	<!-- transaction manager commit/rollback -->
+	<bean
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+		id="transactionManager">
+		<constructor-arg ref="dataSource"></constructor-arg>
+	</bean>
+	<!-- transaction이 필요한 순간에 만들기 위한 조건, @Transactional 사용되는 코드를 AOP통해서 설정함 
+		maven은 xml이 기반임, tx:annotation코드가 없다면 @Transactional이 실행되지않음 -->
+	<tx:annotation-driven />
+</beans>

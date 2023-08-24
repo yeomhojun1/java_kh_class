@@ -132,6 +132,10 @@ order by mid;
  
  SELECT bno,bwriter,btitle FROM bboard;
  
+ select * from member;
+ 
+ commit;
+ 
  
  
  

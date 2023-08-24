@@ -749,7 +749,7 @@ join tb_professor p on (coach_professor_no= professor_no);
 select * from tb_student;
 select * from tb_professor;
 
-
+select * from member;
 
 create SEQUENCE seq_bno
 start with 1

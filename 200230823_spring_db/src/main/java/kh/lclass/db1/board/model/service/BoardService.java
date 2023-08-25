@@ -13,23 +13,29 @@ public class BoardService {
 	@Autowired
 	private BoardDao boardDao;
 
-	public List<BoardVo> selectList() {
+	public List<BoardVo> selectList() throws Exception{
 		return boardDao.selectList();
 	}
-
-	public int insert(BoardVo vo) {
-		return boardDao.insert(vo);
+@Transactional
+	public BoardVo insert(BoardVo vo) throws Exception{
+		BoardVo returnVo =  boardDao.insert(vo);
+		int result= returnVo.getBno();
+		if(result!=0) {
+//			insert 실패
+		}
+		System.out.println(returnVo);
+		return returnVo;
 	}
 
-	public int delete(int bno) {
+	public int delete(int bno) throws Exception{
 		return boardDao.delete(bno);
 	}
 
-	public int update(BoardVo vo) {
+	public int update(BoardVo vo) throws Exception{
 		return boardDao.update(vo);
 	}
 
-	public BoardVo selectOne(int bno) {
+	public BoardVo selectOne(int bno) throws Exception{
 		return boardDao.selectOne(bno);
 	}
 

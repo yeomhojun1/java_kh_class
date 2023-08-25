@@ -7,8 +7,11 @@
 		<select id="selectOne" resultType="BoardVo">
 	select * from board where bno=#{bno}
 	</select>
-	<insert id="insert" parameterType="BoardVo">
-	insert into BOARD values (SEQ_BOARD_BNO.nextval, #{btitle}, #{bcontent}, default, 'kh1',0, 0, 0)
+	<insert id="insert" >
+	<selectKey keyProperty="bno" resultType="int" order="BEFORE">
+	select seq_Board_bno.nextval nextval from dual
+	</selectKey>
+	insert into BOARD values (#{bno}, #{btitle}, #{bcontent}, default, 'kh1',#{bno}, 0, 0)
 	
 	</insert>
 

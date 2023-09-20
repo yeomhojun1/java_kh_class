@@ -44,7 +44,5 @@ public class AjaxTest4Controller extends HttpServlet {
 		for(Member vo: memberList) {
 			System.out.println(vo.getMemail());
 		}
-		
 	}
-
 }

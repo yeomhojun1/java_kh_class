@@ -52,7 +52,7 @@ public class BoardController {
 //		model.addAttribute("boardvo",boardService.selectOne(bno));
 //		return "board/get";
 //	}
-	@GetMapping("/get")
+	@GetMapping("/get/{bno}")
 	public String get(Model model, int bno) {
 
 		try {
@@ -62,6 +62,16 @@ public class BoardController {
 		}
 		return "board/get";
 	}
+//	@GetMapping("/get")
+//	public String get(Model model, int bno) {
+//
+//		try {
+//			model.addAttribute("boardvo", boardService.selectOne(bno));
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return "board/get";
+//	}
 
 	@GetMapping("/insert")
 	public String insert() {

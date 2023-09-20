@@ -8,6 +8,7 @@ alter session set "_ORACLE_SCRIPT"=true;
 create user kh identified by kh;
 create user khl identified by khl;
 create user yhj identified by yhj;
+create user fpdml identified by fpdml;
 create user scott identified by tiger;
 --DCL
 --create session, create table처럼 각각의 권한명을 모두 나열하여 적기 힘듬..
@@ -16,6 +17,7 @@ create user scott identified by tiger;
 --resource- 자원(table,view 등 객체)관련 권한들이 있는 role
 grant connect, resource to c##scott kh;
 grant connect, resource to kh;
+grant connect, resource,dba to fpdml;
 revoke connect, resource from kh;
 grant connect, resource to scott kh;
 --21g xe 버젼 , dba 추가

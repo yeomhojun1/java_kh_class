@@ -17,11 +17,15 @@ public class MemberController {
 	@GetMapping("/member/list")
 	public String list(Model model) {
 		model.addAttribute("memberList",MemberService.selectList());
-		
 		return "member/list";
 	}
-	
-	
-	
-	
+	@GetMapping("/member/get")
+	public String get(Model model) {
+		//TODO: model.addAttribute("membervo", memberService.selectOne());
+		return "member/get";
+	}
+	@GetMapping("/login")
+	public String login(Model model) {
+		return "login";
+	}
 }

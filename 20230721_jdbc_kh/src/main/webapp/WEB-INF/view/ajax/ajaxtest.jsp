@@ -7,6 +7,39 @@
 <title>ajax test</title>
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <style>
+#modal {
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	background-color: rgba(0, 0, 0, 0.4);
+	display: none;
+}
+
+.modal-content {
+	background-color: #fefefe;
+	margin: 15% auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 80%;
+}
+
+.close {
+	color: #aaa;
+	float: right;
+	font-size: 28px;
+	font-weight: bold;
+}
+
+.close:hover, .close:focus {
+	color: black;
+	text-decoration: none;
+	cursor: pointer;
+}
+
 .grid-wrap {
 	display: grid;
 	grid-template-columns: auto auto;
@@ -53,9 +86,16 @@
 			이름: <input type="text" name="mname" required="required"><br>
 			이메일: <input type="text" name="memail" required="required"><br>
 		</div>
-		<button type ="button" id=btnajax4>회원가입</button>
+		<button type="button" id=btnajax4>회원가입</button>
 
 
+	</div>
+	<div id="modal">
+		<div class="modal-content">
+			<h2>모달창 제목</h2>
+			<p>모달창 내용</p>
+			<button id="close-modal">닫기</button>
+		</div>
 	</div>
 
 	<script>
@@ -63,36 +103,38 @@
 		$("#btnajax2").click(ajax2ClickHandler);
 		$("#btnajax3").click(ajax3ClickHandler);
 		$("#btnajax4").click(ajax4ClickHandler);
+		const modal = document.getElementById("modal");
+		const openModalBtn = document.getElementById("open-modal");
+		const closeModalBtn = document.getElementById("close-modal");
+		// 모달창 열기
+
 		function ajax4ClickHandler() {
-			var dataArr= [];
-			$(".signup").each(function(idx){
-				var dataObj= {
-						mid: $(this).find("[name=mid]").val() ,
-						mpwd:  $(this).find("[name=mpwd]").val(),
-						mname:  $(this).find("[name=mname]").val(),
-						memail:  $(this).find("[name=memail]").val()
+			var dataArr = [];
+			$(".signup").each(function(idx) {
+				var dataObj = {
+					mid : $(this).find("[name=mid]").val(),
+					mpwd : $(this).find("[name=mpwd]").val(),
+					mname : $(this).find("[name=mname]").val(),
+					memail : $(this).find("[name=memail]").val()
 				};
 				dataArr.push(dataObj);
 			});
-			
+
 			console.log(dataArr);
 			console.log(JSON.stringify(dataArr));//json으로 변형 string형
 			$.ajax({
 				url : "${pageContext.request.contextPath}/ajax4",
-				type : "post"
-				,data : JSON.stringify(dataArr)
-				,
+				type : "post",
+				data : JSON.stringify(dataArr),
 				success : function(result) {
 					console.log("success: ");
 					console.log(result);
-
 				},
 				error : function() {
 					console.log("error: ");
 					console.log(result);
 				}
 			})
-
 		}
 		function ajax3ClickHandler() {
 			console.log("ajax3ClickHandler");
@@ -162,9 +204,7 @@
 					console.log(dvo.departmentName);
 				}
 			}
-
 			displayDepartment(result.deptList);
-
 		}
 		function displayDepartment(deptList) {
 			htmlVal = "	<div>학과이름</div><div>계열</div>";

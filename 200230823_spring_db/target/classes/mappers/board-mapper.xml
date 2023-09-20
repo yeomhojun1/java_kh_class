@@ -12,7 +12,6 @@
 	select seq_Board_bno.nextval nextval from dual
 	</selectKey>
 	insert into BOARD values (#{bno}, #{btitle}, #{bcontent}, default, 'kh1',#{bno}, 0, 0)
-	
 	</insert>
 
 

@@ -11,7 +11,6 @@
 		<result property="filepath" column="FILE_PATH"/>
 	</collection>
 </resultMap>
-
 	<select id="selectAttachFile1" resultType="AttachFileDto" parameterType="_int">
 	select * from Attach_File where bno=#{bno}
 	</select>

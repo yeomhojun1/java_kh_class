@@ -16,6 +16,4 @@ public class AttachFileVo {
 	public String toString() {
 		return "AttachFileVo [bno=" + bno + ", filepath=" + filepath + ", fileno=" + fileno + "]";
 	}
-	
-	
 }

@@ -54,9 +54,11 @@ desc board;
 select BNO, BTITLE, to_char(BWRITE_DATE, 'yyyy-mm-dd hh24:mi:ss') BWRITE_DATE, MID, BREF, BRE_LEVEL, BRE_STEP
     from board order by bref desc, bre_step asc;
 commit;
+select * from BOARD;
 
-
-
+select * from replyboard;
+delete from replyboard where reply_No =43;
+commit;
 
 
 

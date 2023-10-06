@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>kh.lclass</groupId>
 	<artifactId>db1</artifactId>
-	<name>20230823_spring_db_01_ej</name>
+	<name>20230823_spring_db</name>
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	<properties>
@@ -170,7 +170,11 @@
 		    <version>1.18.28</version>
 		    <scope>provided</scope>
 		</dependency>
-		
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.8.5</version>
+		</dependency>
 		<!-- Spring Security -->
 		<!-- spring-security-core -->
 		<dependency>

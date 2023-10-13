@@ -60,7 +60,12 @@ select * from replyboard;
 delete from replyboard where reply_No =43;
 commit;
 
+select * from board where rownum <10 ;
 
+select rownum,board_no,member_id,Board_title,board_content, board_date,board_Count, bstep,
+		bleveL from
+		(select rownum as rn,board_no,member_id,Board_title,board_content, board_date,board_Count, bstep,
+		bleveL from board where rownum <= 7 *2 )where rn > (#{pageNum} -1) * #{amount} order by board_No desc 
 
 
 
